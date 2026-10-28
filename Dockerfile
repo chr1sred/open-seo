@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && PORT=${PORT:-80} HOST=0.0.0.0 npx wrangler dev dist/server/index.js --port ${PORT:-80} --ip 0.0.0.0 --local"]
+CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && rm -rf .wrangler/deploy && PORT=${PORT:-80} HOST=0.0.0.0 npx wrangler dev dist/server/index.js --port ${PORT:-80} --ip 0.0.0.0 --local"]
