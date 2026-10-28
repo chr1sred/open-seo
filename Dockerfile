@@ -9,7 +9,7 @@ WORKDIR /app
 RUN corepack enable
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --config.ignore-scripts=false
+RUN pnpm install --unsafe-perm
 
 COPY . .
 
