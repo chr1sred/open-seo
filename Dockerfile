@@ -1,5 +1,5 @@
 # Use the full Node image so workerd has a working CA trust store for outbound HTTPS.
-From node:22
+FROM node:22
 
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 80
 
-CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && npx wrangler pages dev dist/client --port ${PORT:-80} --ip 0.0.0.0 --compatibility-date=2024-03-20"]
+CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && PORT=${PORT:-80} HOST=0.0.0.0 npx wrangler dev dist/server/index.js --port ${PORT:-80} --ip 0.0.0.0 --local"]
