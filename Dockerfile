@@ -4,6 +4,7 @@ FROM node:22
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 ENV AUTH_MODE=local_noauth
+ENV PORT=3001
 
 WORKDIR /app
 
@@ -16,4 +17,4 @@ COPY . .
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && npx wrangler pages dev dist/client --port 3001 --ip 0.0.0.0"]
+CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && npx wrangler pages dev dist/client --port 3001 --ip 0.0.0.0 --compatibility-date=2024-03-20"]
