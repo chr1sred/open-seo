@@ -3,14 +3,13 @@ FROM node:22
 
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
-ENV PNPM_ALLOW_BUILD=true
 
 WORKDIR /app
 
-RUN corepack enable
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile=false
 
 COPY . .
 
