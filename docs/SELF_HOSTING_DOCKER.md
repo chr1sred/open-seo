@@ -1,5 +1,7 @@
 # Docker Self-Hosting
 
+> **Nota (este fork):** o `compose.yaml` monta a imagem a partir do `Dockerfile` local (`docker compose up -d --build`), lendo as variáveis do `.env` (veja `.env.example`). Para CapRover, veja [`SELF_HOSTING_CAPROVER.md`](./SELF_HOSTING_CAPROVER.md). As instruções abaixo, sobre a imagem do GHCR, referem-se ao projeto original.
+
 Run OpenSEO locally with Docker.
 
 In Docker mode, OpenSEO uses `AUTH_MODE=local_noauth` (no auth checks, local admin user `admin@localhost`). Only expose it behind your own auth-protected reverse proxy, tunnel, or private network.

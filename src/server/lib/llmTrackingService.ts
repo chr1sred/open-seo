@@ -2,7 +2,7 @@ import { eq, desc } from "drizzle-orm";
 import { db } from "@/db";
 import { llmQuerySets, llmTrackedQueries, llmCitations } from "@/db/schema";
 import { fetchLlmMentionsRaw } from "@/server/lib/dataforseo";
-import { env } from "cloudflare:workers";
+import { isLlmConfigured, runChatCompletion } from "@/server/lib/llm";
 
 export class LlmTrackingService {
   static async runLlmScan(querySetId: string) {
@@ -59,15 +59,12 @@ export class LlmTrackingService {
           let sentiment = "neutral";
           
           try {
-            const ai = env.AI;
-            if (ai) {
-              const aiResp = (await ai.run("@cf/meta/llama-3.1-8b-instruct" as any, {
-                messages: [
-                  { role: "system", content: "Analyze the sentiment of the provided snippet toward the core brand identity. Reply with only one raw word: positive, negative, or neutral." },
-                  { role: "user", content: responseText }
-                ]
-              })) as any;
-              const cleanResult = (aiResp?.response || "").toLowerCase();
+            if (isLlmConfigured()) {
+              const aiResp = await runChatCompletion([
+                { role: "system", content: "Analyze the sentiment of the provided snippet toward the core brand identity. Reply with only one raw word: positive, negative, or neutral." },
+                { role: "user", content: responseText }
+              ]);
+              const cleanResult = aiResp.toLowerCase();
               if (cleanResult.includes("positive")) sentiment = "positive";
               else if (cleanResult.includes("negative")) sentiment = "negative";
             }

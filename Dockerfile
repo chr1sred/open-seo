@@ -1,9 +1,19 @@
+# OpenSEO self-hosted image (CapRover / Docker).
+# Runs on the open-source workerd runtime in local mode: database (SQLite/D1),
+# KV, R2 and Workflows are all stored on disk. No Cloudflare account needed.
+#
 # Use the full Node image so workerd has a working CA trust store for outbound HTTPS.
 FROM node:22
 
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
-ENV AUTH_MODE=local_noauth
+# Expose container env vars (DATAFORSEO_API_KEY, BASIC_AUTH_*, LLM_*...) to the Worker.
+ENV CLOUDFLARE_INCLUDE_PROCESS_ENV=true
+# No telemetry / update checks towards Cloudflare.
+ENV WRANGLER_SEND_METRICS=false
+ENV CLOUDFLARE_CF_FETCH_ENABLED=false
+ENV VITE_SHOW_DEVTOOLS=false
+ENV PORT=80
 
 WORKDIR /app
 
@@ -14,6 +24,11 @@ RUN pnpm install --frozen-lockfile=false
 
 COPY . .
 
+# Build once at image build time (faster container restarts).
+# Remove the deploy redirect so `wrangler dev` uses the built bundle directly.
+RUN pnpm run build && rm -rf .wrangler/deploy
+
+# Mount /app/.wrangler/state as a CapRover Persistent Directory to keep your data.
 EXPOSE 80
 
-CMD ["sh", "-c", "pnpm run db:migrate:local && pnpm run build && rm -rf .wrangler/deploy && PORT=${PORT:-80} HOST=0.0.0.0 npx wrangler dev dist/server/index.js --port ${PORT:-80} --ip 0.0.0.0 --local"]
+CMD ["sh", "scripts/start-selfhost.sh"]

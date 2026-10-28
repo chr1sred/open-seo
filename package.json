@@ -5,9 +5,9 @@
   "version": "0.0.3",
   "type": "module",
   "scripts": {
-    "dev": "AUTH_MODE=local_noauth vite dev",
-    "dev:agents": "mkdir -p .logs && AUTH_MODE=local_noauth portless run vite dev 2>&1 | tee .logs/dev-server.log",
-    "dev:agents:force": "mkdir -p .logs && AUTH_MODE=local_noauth portless --force run vite dev 2>&1 | tee .logs/dev-server.log",
+    "dev": "vite dev",
+    "dev:agents": "mkdir -p .logs && portless run vite dev 2>&1 | tee .logs/dev-server.log",
+    "dev:agents:force": "mkdir -p .logs && portless --force run vite dev 2>&1 | tee .logs/dev-server.log",
     "build": "vite build && tsc --noEmit",
     "lint": "oxlint . --type-aware",
     "lint:fix": "oxlint . --type-aware --fix",
@@ -22,6 +22,7 @@
     "db:migrate:prod": "wrangler d1 migrations apply DB --remote",
     "knip": "knip",
     "release:notes": "node scripts/release-notes.mjs",
+    "start:selfhost": "sh scripts/start-selfhost.sh",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ci": "vitest run --reporter=dot",
@@ -30,15 +31,6 @@
   },
   "cloudflare": {
     "bindings": {
-      "AUTH_MODE": {
-        "description": "Set to `cloudflare_access` for secured deployments behind Cloudflare Access, or `local_noauth` for trusted local self-host mode only."
-      },
-      "TEAM_DOMAIN": {
-        "description": "Cloudflare Access team domain (for example `https://your-team.cloudflareaccess.com`) used to validate `cf-access-jwt-assertion` JWTs."
-      },
-      "POLICY_AUD": {
-        "description": "Cloudflare Access Application Audience (AUD) tag for this Worker route/domain."
-      },
       "DATAFORSEO_API_KEY": {
         "description": "Base64-encoded `login:password` for DataForSEO API access."
       }
@@ -58,7 +50,6 @@
     "dataforseo-client": "^2.0.19",
     "drizzle-orm": "^0.44.4",
     "fast-xml-parser": "^5.4.1",
-    "jose": "^6.0.12",
     "lucide-react": "^0.542.0",
     "papaparse": "^5.5.3",
     "react": "^19.0.0",

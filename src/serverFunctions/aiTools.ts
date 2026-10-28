@@ -3,8 +3,8 @@ import { authenticatedServerFunctionMiddleware } from "@/serverFunctions/middlew
 import { z } from "zod";
 import { db } from "@/db";
 import { auditPages, savedKeywords } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { env } from "cloudflare:workers";
+import { and, eq } from "drizzle-orm";
+import { isLlmConfigured, runChatCompletion } from "@/server/lib/llm";
 
 export const generateAiAuditFix = createServerFn({ method: "POST" })
   .middleware(authenticatedServerFunctionMiddleware)
@@ -36,20 +36,19 @@ export const generateAiAuditFix = createServerFn({ method: "POST" })
       }. Provide strictly the heading text alone.`;
     }
 
-    const ai = env.AI;
-    if (!ai) return { fix: "", error: "AI features disabled locally" };
+    if (!isLlmConfigured()) {
+      return { fix: "", error: "AI features disabled: set LLM_API_KEY" };
+    }
 
     try {
-      const aiResp = (await ai.run("@cf/meta/llama-3.1-8b-instruct" as any, {
-        messages: [
-          { role: "system", content: "You are an expert technical SEO assistant." },
-          { role: "user", content: prompt },
-        ],
-      })) as any;
-      return { fix: aiResp?.response?.replace(/"/g, "").trim() || "" };
+      const text = await runChatCompletion([
+        { role: "system", content: "You are an expert technical SEO assistant." },
+        { role: "user", content: prompt },
+      ]);
+      return { fix: text.replace(/"/g, "").trim() };
     } catch (err: any) {
       console.error("AI Generation Error:", err.stack || err);
-      return { fix: "", error: `Cloudflare AI Error: ${err.message || String(err)}` };
+      return { fix: "", error: `AI Error: ${err.message || String(err)}` };
     }
   });
 
@@ -66,25 +65,23 @@ export const clusterKeywords = createServerFn({ method: "POST" })
     const kwList = keywords.map((k) => k.keyword).join(", ");
     const prompt = `Categorize the following search keywords into 4 to 6 thematic clusters based on user search intent or product category. Return ONLY a pure JSON array of objects, strictly in this format: [{"keyword": "exact match keyword", "cluster": "Theme Name"}]. Keywords to organize: ${kwList}`;
 
-    const ai = env.AI;
-    if (!ai) return { success: false, clustersUpdated: 0, error: "AI features offline" };
+    if (!isLlmConfigured()) {
+      return { success: false, clustersUpdated: 0, error: "AI features disabled: set LLM_API_KEY" };
+    }
 
-    let aiResp: any = null;
+    let responseText = "";
     try {
-      aiResp = (await ai.run("@cf/meta/llama-3.1-8b-instruct" as any, {
-        messages: [
-          { role: "system", content: "You are an SEO grouping assistant. Output nothing except raw JSON." },
-          { role: "user", content: prompt },
-        ],
-      })) as any;
+      responseText = await runChatCompletion([
+        { role: "system", content: "You are an SEO grouping assistant. Output nothing except raw JSON." },
+        { role: "user", content: prompt },
+      ]);
     } catch (err: any) {
-      console.error("Llama 3 Runtime Error:", err.stack || err);
+      console.error("LLM Runtime Error:", err.stack || err);
       return { success: false, clustersUpdated: 0, error: `LLM Execution Failed: ${err.message || String(err)}` };
     }
 
     let updates = 0;
     try {
-      const responseText = aiResp?.response || "";
       const jsonStr = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
       const parsed = JSON.parse(jsonStr) as { keyword: string; cluster: string }[];
 
@@ -93,11 +90,16 @@ export const clusterKeywords = createServerFn({ method: "POST" })
         await db
           .update(savedKeywords)
           .set({ aiCluster: obj.cluster })
-          .where(eq(savedKeywords.keyword, obj.keyword));
+          .where(
+            and(
+              eq(savedKeywords.projectId, projectId),
+              eq(savedKeywords.keyword, obj.keyword),
+            ),
+          );
         updates++;
       }
     } catch (e) {
-      console.error("Failed to parse AI clustering. Raw Output:", aiResp?.response);
+      console.error("Failed to parse AI clustering. Raw Output:", responseText);
       return { success: false, clustersUpdated: updates, error: "AI sent fragmented JSON. Please try again." };
     }
 

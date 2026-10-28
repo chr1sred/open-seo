@@ -101,6 +101,8 @@ printf '%s' 'YOUR_LOGIN:YOUR_PASSWORD' | base64
 
 ## Self-hosting
 
+> **🇧🇷 VPS / CapRover (sem Cloudflare):** veja [`docs/SELF_HOSTING_CAPROVER.md`](./docs/SELF_HOSTING_CAPROVER.md). Esta versão roda 100% na sua VPS: banco SQLite local, sem Cloudflare Access, com Basic Auth opcional e IA via qualquer API compatível com OpenAI.
+
 OpenSEO supports two self-hosting paths:
 
 - Docker for your homelab or local use (Recommended).

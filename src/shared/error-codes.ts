@@ -2,7 +2,6 @@ import { z } from "zod";
 
 const ERROR_CODES = [
   "UNAUTHENTICATED",
-  "AUTH_CONFIG_MISSING",
   "FORBIDDEN",
   "NOT_FOUND",
   "AUDIT_CAPACITY_REACHED",

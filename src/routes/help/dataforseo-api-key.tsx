@@ -56,35 +56,26 @@ function DataforseoApiKeyHelpPage() {
         <div className="card bg-base-100 border border-base-300">
           <div className="card-body gap-2 text-sm text-base-content/75">
             <h2 className="card-title text-base">
-              Cloudflare Workers (Dashboard UI)
+              Self-hosted (CapRover / Docker)
             </h2>
             <ol className="list-decimal pl-5 space-y-2 text-sm text-base-content/80">
               <li>
-                In Cloudflare, go to <code>Compute</code> -&gt;{" "}
-                <code>Workers &amp; Pages</code>
-                and open your OpenSEO Worker.
+                In CapRover, open your OpenSEO app and go to{" "}
+                <code>App Configs</code> -&gt;{" "}
+                <code>Environmental Variables</code>.
               </li>
               <li>
-                Open <code>Settings</code>.
+                Add a variable named
+                <code className="mx-1">DATAFORSEO_API_KEY</code>
+                with the base64 value from the terminal command above.
               </li>
               <li>
-                Go to <code>Variables &amp; Secrets</code> and add a new secret
-                named
-                <code className="mx-1">DATAFORSEO_API_KEY</code>.
-              </li>
-              <li>
-                Paste the base64 value from the terminal command above and save.
+                Click <code>Save &amp; Update</code> to restart the app.
               </li>
             </ol>
-
-            <div className="divider my-1" />
-
-            <p>Or set the same secret from your terminal with:</p>
-            <pre className="p-3 rounded bg-base-200 border border-base-300 overflow-x-auto text-xs">
-              <code>npx wrangler secret put DATAFORSEO_API_KEY</code>
-            </pre>
             <p>
-              Use the base64 value of <code>login:password</code> when prompted.
+              With Docker Compose, set <code>DATAFORSEO_API_KEY</code> in your{" "}
+              <code>.env</code> file and run <code>docker compose up -d</code>.
             </p>
           </div>
         </div>

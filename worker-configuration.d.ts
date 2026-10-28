@@ -9,8 +9,6 @@ declare namespace Cloudflare {
 		KV: KVNamespace;
 		R2: R2Bucket;
 		DB: D1Database;
-		AI: Ai;
-		AUTH_MODE: string;
 		DATAFORSEO_API_KEY: string;
 		SITE_AUDIT_WORKFLOW: Workflow<Parameters<import("./src/server").SiteAuditWorkflow['run']>[0]['payload']>;
 	}
@@ -20,7 +18,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "AUTH_MODE" | "DATAFORSEO_API_KEY">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "DATAFORSEO_API_KEY">> {}
 }
 
 // Begin runtime types

@@ -1,10 +1,6 @@
 import { Link, rootRouteId, useMatch, useRouter } from "@tanstack/react-router";
 import type { ErrorComponentProps } from "@tanstack/react-router";
-import {
-  getErrorCode,
-  getStandardErrorMessage,
-} from "@/client/lib/error-messages";
-import { AuthConfigErrorCard } from "@/client/components/AuthConfigErrorCard";
+import { getStandardErrorMessage } from "@/client/lib/error-messages";
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   const router = useRouter();
@@ -17,22 +13,6 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
     error,
     "Something went wrong. Please try again.",
   );
-  const errorCode = getErrorCode(error);
-  const showAuthConfigHelp = errorCode === "AUTH_CONFIG_MISSING";
-
-  if (showAuthConfigHelp) {
-    return (
-      <div className="min-w-0 flex-1 p-4 flex items-center justify-center">
-        <AuthConfigErrorCard
-          message={message}
-          onRetry={() => {
-            void router.invalidate();
-          }}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="min-w-0 flex-1 p-4 flex flex-col items-center justify-center gap-6">
       <p className="text-center text-error">{message}</p>
