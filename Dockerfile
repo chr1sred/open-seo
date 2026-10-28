@@ -25,8 +25,10 @@ RUN pnpm install --frozen-lockfile=false
 COPY . .
 
 # Build once at image build time (faster container restarts).
-# Remove the deploy redirect so `wrangler dev` uses the built bundle directly.
-RUN pnpm run build && rm -rf .wrangler/deploy
+# Only `vite build` (no type-check) and a capped Node heap to keep memory
+# usage low on small VPSs. Remove the deploy redirect so `wrangler dev`
+# uses the built bundle directly.
+RUN NODE_OPTIONS=--max-old-space-size=1536 pnpm exec vite build && rm -rf .wrangler/deploy
 
 # Mount /app/.wrangler/state as a CapRover Persistent Directory to keep your data.
 EXPOSE 80
