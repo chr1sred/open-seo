@@ -11,6 +11,10 @@ CRON_ENABLED="${CRON_ENABLED:-true}"
 
 mkdir -p "$STATE_DIR"
 
+# Runtime env vars (CapRover / Docker) must win: a .dev.vars file would
+# make wrangler ignore process.env entirely.
+rm -f dist/server/.dev.vars .dev.vars
+
 # Secret shared between the scheduler loop and the internal cron endpoint.
 if [ -z "$CRON_SECRET" ]; then
   CRON_SECRET="$(node -e 'console.log(require("crypto").randomBytes(24).toString("hex"))')"

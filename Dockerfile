@@ -28,7 +28,11 @@ COPY . .
 # Only `vite build` (no type-check) and a capped Node heap to keep memory
 # usage low on small VPSs. Remove the deploy redirect so `wrangler dev`
 # uses the built bundle directly.
-RUN NODE_OPTIONS=--max-old-space-size=1536 pnpm exec vite build && rm -rf .wrangler/deploy
+# Build without process env so no build-time .dev.vars gets baked into dist
+# (it would override the runtime env vars set in CapRover).
+RUN CLOUDFLARE_INCLUDE_PROCESS_ENV=false NODE_OPTIONS=--max-old-space-size=1536 pnpm exec vite build \
+  && rm -rf .wrangler/deploy \
+  && rm -f dist/server/.dev.vars .dev.vars
 
 # Mount /app/.wrangler/state as a CapRover Persistent Directory to keep your data.
 EXPOSE 80
