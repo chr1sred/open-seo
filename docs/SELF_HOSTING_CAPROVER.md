@@ -29,6 +29,20 @@ As únicas chamadas externas são para as APIs que você configurar: DataForSEO,
    - **Label:** `openseo-data`
 
    ⚠️ Sem isso, o banco é **apagado a cada deploy**.
+
+   Se o app foi criado sem "Has Persistent Data" (a seção de diretórios persistentes não aparece), use o **Service Update Override**:
+
+   ```json
+   {
+     "TaskTemplate": {
+       "ContainerSpec": {
+         "Mounts": [
+           { "Type": "volume", "Source": "openseo-data", "Target": "/app/.wrangler/state" }
+         ]
+       }
+     }
+   }
+   ```
 5. Em **App Configs → Environmental Variables**, configure:
 
 | Variável | Obrigatória | Exemplo / Descrição |
@@ -59,4 +73,4 @@ Nos logs do app (`docker service logs <app> -f`) devem aparecer:
 
 ## Backup
 
-Todo o estado fica no volume persistente. Para fazer backup, copie o conteúdo de `/app/.wrangler/state` (na VPS ele fica em `/var/lib/docker/volumes/captain--openseo-data/_data`).
+Todo o estado fica no volume persistente. Para fazer backup, copie o conteúdo de `/app/.wrangler/state` (na VPS: `/var/lib/docker/volumes/captain--openseo-data/_data` via Persistent Directory, ou `/var/lib/docker/volumes/openseo-data/_data` via Service Update Override).
