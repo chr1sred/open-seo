@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { ChevronsUpDown, X } from "lucide-react";
+import { FolderKanban, X } from "lucide-react";
 import { projectNavItems } from "@/client/navigation/items";
+import { ProjectSwitcher } from "@/client/features/projects/ProjectSwitcher";
 
 interface SidebarProps {
   currentPath: string;
@@ -32,9 +33,16 @@ export function Sidebar({
             </button>
           )}
         </div>
-        <div className="flex-1 flex items-center justify-center">
-          <span className="loading loading-spinner loading-sm" />
-        </div>
+        <nav className="flex-1 py-4 pl-3">
+          <Link
+            to="/projects"
+            onClick={onNavigate}
+            className="flex items-center gap-3 pl-4 pr-4 py-2 text-sm font-medium text-base-content"
+          >
+            <FolderKanban className="h-5 w-5" />
+            Projetos
+          </Link>
+        </nav>
       </div>
     );
   }
@@ -57,15 +65,12 @@ export function Sidebar({
 
       {/* Project picker */}
       <div className="px-3 py-3 border-b border-base-300">
-        <div
-          className="tooltip tooltip-bottom w-full"
-          data-tip="Múltiplos projetos em breve"
-        >
-          <button className="btn btn-ghost btn-sm w-full justify-between font-medium text-sm cursor-default">
-            <span className="truncate">Padrão</span>
-            <ChevronsUpDown className="size-3.5 shrink-0 text-base-content/40" />
-          </button>
-        </div>
+        <ProjectSwitcher
+          projectId={projectId}
+          pathname={currentPath}
+          fullWidth
+          onNavigate={onNavigate}
+        />
       </div>
 
       {/* Navigation */}

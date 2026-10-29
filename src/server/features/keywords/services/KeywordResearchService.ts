@@ -1,6 +1,7 @@
 import {
   createProject,
   deleteProject,
+  updateProject,
   getOrCreateDefaultProject,
   getProject,
   getSavedKeywords,
@@ -20,6 +21,7 @@ export const KeywordResearchService = {
   listProjects,
   createProject,
   deleteProject,
+  updateProject,
   saveKeywords,
   getSavedKeywords,
   removeSavedKeyword,

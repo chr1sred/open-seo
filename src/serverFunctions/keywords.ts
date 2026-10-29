@@ -7,6 +7,9 @@ import {
   getSavedKeywordsSchema,
   removeSavedKeywordSchema,
   serpAnalysisSchema,
+  createProjectSchema,
+  updateProjectSchema,
+  deleteProjectSchema,
 } from "@/types/schemas/keywords";
 import { KeywordResearchService } from "@/server/features/keywords/services/KeywordResearchService";
 
@@ -42,6 +45,33 @@ export const getOrCreateDefaultProject = createServerFn({ method: "POST" })
   .middleware(authenticatedServerFunctionMiddleware)
   .handler(async ({ context }) =>
     KeywordResearchService.getOrCreateDefaultProject(context.userId),
+  );
+
+export const listProjects = createServerFn({ method: "POST" })
+  .middleware(authenticatedServerFunctionMiddleware)
+  .handler(async ({ context }) =>
+    KeywordResearchService.listProjects(context.userId),
+  );
+
+export const createProject = createServerFn({ method: "POST" })
+  .middleware(authenticatedServerFunctionMiddleware)
+  .inputValidator((data: unknown) => createProjectSchema.parse(data))
+  .handler(async ({ data, context }) =>
+    KeywordResearchService.createProject(context.userId, data),
+  );
+
+export const updateProject = createServerFn({ method: "POST" })
+  .middleware(authenticatedServerFunctionMiddleware)
+  .inputValidator((data: unknown) => updateProjectSchema.parse(data))
+  .handler(async ({ data, context }) =>
+    KeywordResearchService.updateProject(context.userId, data),
+  );
+
+export const deleteProject = createServerFn({ method: "POST" })
+  .middleware(authenticatedServerFunctionMiddleware)
+  .inputValidator((data: unknown) => deleteProjectSchema.parse(data))
+  .handler(async ({ data, context }) =>
+    KeywordResearchService.deleteProject(context.userId, data),
   );
 
 export const getSerpAnalysis = createServerFn({ method: "POST" })

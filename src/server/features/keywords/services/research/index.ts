@@ -4,6 +4,7 @@ export {
   listProjects,
   createProject,
   deleteProject,
+  updateProject,
   getOrCreateDefaultProject,
   getProject,
 } from "./projects";

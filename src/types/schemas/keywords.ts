@@ -15,8 +15,14 @@ export const researchKeywordsSchema = z.object({
 });
 
 export const createProjectSchema = z.object({
-  name: z.string().min(1, "Project name is required").max(120),
-  domain: z.string().max(255).optional(),
+  name: z.string().trim().min(1, "Informe o nome do projeto").max(120),
+  domain: z.string().trim().max(255).optional(),
+});
+
+export const updateProjectSchema = z.object({
+  projectId: z.string().min(1),
+  name: z.string().trim().min(1, "Informe o nome do projeto").max(120),
+  domain: z.string().trim().max(255).optional(),
 });
 
 export const deleteProjectSchema = z.object({
@@ -25,7 +31,7 @@ export const deleteProjectSchema = z.object({
 
 export const saveKeywordsSchema = z.object({
   projectId: z.string().min(1),
-  keywords: z.array(z.string().min(1)).min(1).max(200),
+  keywords: z.array(z.string().min(1)).min(1).max(500),
   locationCode: z.number().int().positive().default(2840),
   languageCode: z.string().min(2).max(8).default("en"),
   metrics: z
@@ -63,7 +69,7 @@ export const saveKeywordsSchema = z.object({
           .optional(),
       }),
     )
-    .max(200)
+    .max(500)
     .optional(),
 });
 
@@ -78,6 +84,7 @@ export const getSavedKeywordsSchema = z.object({
 export type ResearchKeywordsInput = z.infer<typeof researchKeywordsSchema>;
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type DeleteProjectInput = z.infer<typeof deleteProjectSchema>;
+export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
 export type SaveKeywordsInput = z.infer<typeof saveKeywordsSchema>;
 export type RemoveSavedKeywordInput = z.infer<typeof removeSavedKeywordSchema>;
 export const serpAnalysisSchema = z.object({

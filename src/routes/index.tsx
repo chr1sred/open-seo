@@ -1,7 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { getOrCreateDefaultProject } from "@/serverFunctions/keywords";
+import {
+  getOrCreateDefaultProject,
+  listProjects,
+} from "@/serverFunctions/keywords";
+import { loadLastProjectId } from "@/client/features/projects/projectStorage";
 import { getStandardErrorMessage } from "@/client/lib/error-messages";
 
 export const Route = createFileRoute("/")({
@@ -12,7 +16,16 @@ function IndexRedirect() {
   const navigate = useNavigate();
 
   const { mutate, error, isError } = useMutation({
-    mutationFn: () => getOrCreateDefaultProject(),
+    mutationFn: async () => {
+      // Reopen the last project used, falling back to the default one.
+      const lastProjectId = loadLastProjectId();
+      if (lastProjectId) {
+        const projects = await listProjects();
+        const last = projects.find((project) => project.id === lastProjectId);
+        if (last) return last;
+      }
+      return getOrCreateDefaultProject();
+    },
     onSuccess: (project) => {
       void navigate({
         to: "/p/$projectId/keywords",
@@ -21,7 +34,11 @@ function IndexRedirect() {
     },
   });
 
+  // Run once: repeated calls used to create duplicate default projects.
+  const startedRef = useRef(false);
   useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
     mutate();
   }, [mutate]);
 

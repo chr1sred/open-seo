@@ -202,21 +202,19 @@ function buildResearchCacheKey(
 }
 
 function persistRows(input: ResearchKeywordsInput, rows: EnrichedKeyword[]) {
-  void Promise.all(
-    rows.map((row) =>
-      KeywordResearchRepository.upsertKeywordMetric({
-        projectId: input.projectId,
-        keyword: row.keyword,
-        locationCode: input.locationCode,
-        languageCode: input.languageCode,
-        searchVolume: row.searchVolume,
-        cpc: row.cpc,
-        competition: row.competition,
-        keywordDifficulty: row.keywordDifficulty,
-        intent: row.intent,
-        monthlySearchesJson: JSON.stringify(row.trend),
-      }),
-    ),
+  void KeywordResearchRepository.upsertKeywordMetrics(
+    rows.map((row) => ({
+      projectId: input.projectId,
+      keyword: row.keyword,
+      locationCode: input.locationCode,
+      languageCode: input.languageCode,
+      searchVolume: row.searchVolume,
+      cpc: row.cpc,
+      competition: row.competition,
+      keywordDifficulty: row.keywordDifficulty,
+      intent: row.intent,
+      monthlySearchesJson: JSON.stringify(row.trend),
+    })),
   ).catch((error) => {
     console.error("keywords.research.persist-metrics failed:", error);
   });

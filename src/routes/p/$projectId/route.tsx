@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProject } from "@/serverFunctions/keywords";
+import { saveLastProjectId } from "@/client/features/projects/projectStorage";
 
 export const Route = createFileRoute("/p/$projectId")({
   component: ProjectLayout,
@@ -20,6 +21,10 @@ function ProjectLayout() {
     queryKey: ["project", projectId],
     queryFn: () => getProject({ data: { projectId } }),
   });
+
+  useEffect(() => {
+    if (project) saveLastProjectId(project.id);
+  }, [project]);
 
   useEffect(() => {
     if (!isLoading && (isError || !project)) {

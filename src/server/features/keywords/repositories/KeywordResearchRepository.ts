@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { keywordMetrics, projects, savedKeywords } from "@/db/schema";
 import { AppError } from "@/server/lib/errors";
 
-async function upsertKeywordMetric(params: {
+type KeywordMetricInput = {
   projectId: string;
   keyword: string;
   locationCode: number;
@@ -14,10 +14,33 @@ async function upsertKeywordMetric(params: {
   keywordDifficulty: number | null;
   intent: string | null;
   monthlySearchesJson: string;
-}) {
-  const fetchedAt = new Date().toISOString();
+};
 
-  await db
+// D1 accepts at most 100 statements per batch() call.
+const D1_BATCH_SIZE = 100;
+
+/**
+ * Upsert many keyword metrics using one statement per keyword, sent in
+ * batches (a multi-row INSERT would exceed D1's 100 bound-parameter limit).
+ */
+async function upsertKeywordMetrics(items: KeywordMetricInput[]) {
+  const fetchedAt = new Date().toISOString();
+  const statements = items.map((item) =>
+    buildKeywordMetricUpsert(item, fetchedAt),
+  );
+
+  for (let i = 0; i < statements.length; i += D1_BATCH_SIZE) {
+    const [first, ...rest] = statements.slice(i, i + D1_BATCH_SIZE);
+    if (!first) continue;
+    await db.batch([first, ...rest]);
+  }
+}
+
+function buildKeywordMetricUpsert(
+  params: KeywordMetricInput,
+  fetchedAt: string,
+) {
+  return db
     .insert(keywordMetrics)
     .values({
       projectId: params.projectId,
@@ -111,6 +134,39 @@ async function createProject(userId: string, name: string, domain?: string) {
   return id;
 }
 
+/**
+ * Create the user's default project with a deterministic id so concurrent
+ * calls cannot create duplicates.
+ */
+async function ensureDefaultProject(userId: string, name: string) {
+  const id = `default-${userId}`;
+  await db
+    .insert(projects)
+    .values({ id, userId, name })
+    .onConflictDoNothing();
+  return id;
+}
+
+async function updateProject(
+  projectId: string,
+  userId: string,
+  values: { name: string; domain: string | null },
+) {
+  await db
+    .update(projects)
+    .set(values)
+    .where(and(eq(projects.id, projectId), eq(projects.userId, userId)));
+}
+
+async function countSavedKeywordsByProject(userId: string) {
+  return db
+    .select({ projectId: savedKeywords.projectId, value: count() })
+    .from(savedKeywords)
+    .innerJoin(projects, eq(projects.id, savedKeywords.projectId))
+    .where(eq(projects.userId, userId))
+    .groupBy(savedKeywords.projectId);
+}
+
 async function deleteProject(projectId: string, userId: string) {
   const project = await getProject(projectId, userId);
   if (!project) {
@@ -138,7 +194,6 @@ async function saveKeywordsToProject(params: {
 }) {
   // One INSERT per keyword: a single multi-row INSERT exceeds D1's limit of
   // 100 bound parameters per query (5 params per row -> max 20 rows).
-  const BATCH_SIZE = 100; // D1 max statements per batch() call
   const statements = params.keywords.map((keyword) =>
     db
       .insert(savedKeywords)
@@ -152,8 +207,8 @@ async function saveKeywordsToProject(params: {
       .onConflictDoNothing(),
   );
 
-  for (let i = 0; i < statements.length; i += BATCH_SIZE) {
-    const [first, ...rest] = statements.slice(i, i + BATCH_SIZE);
+  for (let i = 0; i < statements.length; i += D1_BATCH_SIZE) {
+    const [first, ...rest] = statements.slice(i, i + D1_BATCH_SIZE);
     if (!first) continue;
     await db.batch([first, ...rest]);
   }
@@ -187,7 +242,7 @@ async function getSavedKeywordById(savedKeywordId: string) {
 }
 
 export const KeywordResearchRepository = {
-  upsertKeywordMetric,
+  upsertKeywordMetrics,
   listProjects,
   getProject,
   getProjectPsiApiKey,
@@ -197,6 +252,9 @@ export const KeywordResearchRepository = {
   deleteProject,
   countSavedKeywords,
   saveKeywordsToProject,
+  updateProject,
+  ensureDefaultProject,
+  countSavedKeywordsByProject,
   listSavedKeywordsByProject,
   removeSavedKeyword,
   getSavedKeywordById,

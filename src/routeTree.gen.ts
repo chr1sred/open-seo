@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HelpDataforseoApiKeyRouteImport } from './routes/help/dataforseo-api-key'
 import { Route as PProjectIdRouteRouteImport } from './routes/p/$projectId/route'
@@ -24,6 +25,11 @@ import { Route as PProjectIdAuditIndexRouteImport } from './routes/p/$projectId/
 import { Route as PProjectIdPsiIssuesResultIdRouteImport } from './routes/p/$projectId/psi/issues/$resultId'
 import { Route as PProjectIdAuditIssuesResultIdRouteImport } from './routes/p/$projectId/audit/issues/$resultId'
 
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -99,6 +105,7 @@ const PProjectIdAuditIssuesResultIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/projects': typeof ProjectsRoute
   '/p/$projectId': typeof PProjectIdRouteRouteWithChildren
   '/help/dataforseo-api-key': typeof HelpDataforseoApiKeyRoute
   '/p/$projectId/ai': typeof PProjectIdAiRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/projects': typeof ProjectsRoute
   '/help/dataforseo-api-key': typeof HelpDataforseoApiKeyRoute
   '/p/$projectId/ai': typeof PProjectIdAiRoute
   '/p/$projectId/backlinks': typeof PProjectIdBacklinksRoute
@@ -130,6 +138,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/projects': typeof ProjectsRoute
   '/p/$projectId': typeof PProjectIdRouteRouteWithChildren
   '/help/dataforseo-api-key': typeof HelpDataforseoApiKeyRoute
   '/p/$projectId/ai': typeof PProjectIdAiRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/projects'
     | '/p/$projectId'
     | '/help/dataforseo-api-key'
     | '/p/$projectId/ai'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/projects'
     | '/help/dataforseo-api-key'
     | '/p/$projectId/ai'
     | '/p/$projectId/backlinks'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/projects'
     | '/p/$projectId'
     | '/help/dataforseo-api-key'
     | '/p/$projectId/ai'
@@ -195,12 +207,20 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProjectsRoute: typeof ProjectsRoute
   PProjectIdRouteRoute: typeof PProjectIdRouteRouteWithChildren
   HelpDataforseoApiKeyRoute: typeof HelpDataforseoApiKeyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -346,6 +366,7 @@ const PProjectIdRouteRouteWithChildren = PProjectIdRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProjectsRoute: ProjectsRoute,
   PProjectIdRouteRoute: PProjectIdRouteRouteWithChildren,
   HelpDataforseoApiKeyRoute: HelpDataforseoApiKeyRoute,
 }

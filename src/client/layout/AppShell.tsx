@@ -2,13 +2,13 @@ import * as React from "react";
 import { Link, Outlet } from "@tanstack/react-router";
 import {
   AlertTriangle,
-  ChevronsUpDown,
   ExternalLink,
   Menu,
 } from "lucide-react";
 import { Sidebar } from "@/client/components/Sidebar";
 import { projectNavItems } from "@/client/navigation/items";
 import { BalanceButton } from "@/client/layout/BalancePanel";
+import { ProjectSwitcher } from "@/client/features/projects/ProjectSwitcher";
 
 export function TopNav({
   drawerOpen,
@@ -72,15 +72,7 @@ export function TopNav({
 
       <div className="flex-none hidden md:flex items-center gap-1">
         <BalanceButton />
-        <div
-          className="tooltip tooltip-left before:whitespace-nowrap"
-          data-tip="Múltiplos projetos em breve"
-        >
-          <button className="btn btn-ghost btn-sm font-medium text-sm gap-1 cursor-default">
-            <span className="truncate">Padrão</span>
-            <ChevronsUpDown className="size-3.5 shrink-0 text-base-content/40" />
-          </button>
-        </div>
+        <ProjectSwitcher projectId={projectId} pathname={pathname} />
       </div>
     </div>
   );
