@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { z } from "zod";
 import { Trash2, Loader2, ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
 const INTENT_LABELS: Record<string, string> = {
@@ -27,6 +28,55 @@ type SortField =
   | "competition"
   | "keywordDifficulty";
 type SortState = { field: SortField; direction: "asc" | "desc" } | null;
+
+const SORT_STORAGE_KEY = "openseo-saved-keywords-sort";
+const sortStateSchema = z.object({
+  field: z.enum([
+    "keyword",
+    "searchVolume",
+    "cpc",
+    "competition",
+    "keywordDifficulty",
+  ]),
+  direction: z.enum(["asc", "desc"]),
+});
+
+function loadSortState(): SortState {
+  try {
+    const raw = localStorage.getItem(SORT_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = sortStateSchema.safeParse(JSON.parse(raw));
+    return parsed.success ? parsed.data : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveSortState(sort: SortState) {
+  try {
+    if (sort) localStorage.setItem(SORT_STORAGE_KEY, JSON.stringify(sort));
+    else localStorage.removeItem(SORT_STORAGE_KEY);
+  } catch {
+    // storage unavailable - sorting still works for this visit
+  }
+}
+
+/** Sort choice remembered across visits (per browser). */
+function usePersistedSort() {
+  const [sort, setSort] = useState<SortState>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setSort(loadSortState());
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (loaded) saveSortState(sort);
+  }, [sort, loaded]);
+
+  return [sort, setSort] as const;
+}
 
 function useSortedRows(rows: SavedKeywordTableRow[], sort: SortState) {
   return useMemo(() => {
@@ -98,7 +148,7 @@ export function SavedKeywordsTable({
   removingId: string | null;
   onRemoveKeyword: (savedKeywordId: string) => void;
 }) {
-  const [sort, setSort] = useState<SortState>(null);
+  const [sort, setSort] = usePersistedSort();
   const sortedRows = useSortedRows(rows, sort);
 
   // First click: largest first (A-Z for keywords); second click flips.
