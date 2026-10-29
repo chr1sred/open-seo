@@ -7,7 +7,8 @@ import {
   removeSavedKeyword,
 } from "@/serverFunctions/keywords";
 import { clusterKeywords } from "@/serverFunctions/aiTools";
-import { Trash2, Download, Search, Loader2, AlertCircle } from "lucide-react";
+import { Download, Search, Loader2, AlertCircle } from "lucide-react";
+import { SavedKeywordsTable } from "@/client/features/keywords/components/SavedKeywordsTable";
 import { buildCsv, downloadCsv } from "@/client/lib/csv";
 import { getStandardErrorMessage } from "@/client/lib/error-messages";
 
@@ -232,114 +233,4 @@ function SavedKeywordsContent({
       </div>
     </div>
   );
-}
-
-const INTENT_LABELS: Record<string, string> = {
-  informational: "Informacional",
-  commercial: "Comercial",
-  transactional: "Transacional",
-  navigational: "Navegacional",
-};
-
-function SavedKeywordsTable({
-  rows,
-  removingId,
-  onRemoveKeyword,
-}: {
-  rows: Array<{
-    id: string;
-    keyword: string;
-    searchVolume: number | null;
-    cpc: number | null;
-    competition: number | null;
-    keywordDifficulty: number | null;
-    intent: string | null;
-    fetchedAt: string | null;
-    aiCluster?: string | null;
-  }>;
-  removingId: string | null;
-  onRemoveKeyword: (savedKeywordId: string) => void;
-}) {
-  return (
-    <div className="overflow-x-auto">
-      <table className="table table-zebra table-sm">
-        <thead>
-          <tr>
-            <th>Palavra-chave</th>
-            <th>Volume</th>
-            <th>CPC</th>
-            <th>Concorrência</th>
-            <th>Dificuldade</th>
-            <th>Intenção</th>
-            <th>Grupo (IA)</th>
-            <th>Atualizado</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((kw) => (
-            <tr key={kw.id}>
-              <td className="font-medium">{kw.keyword}</td>
-              <td>{formatNumber(kw.searchVolume)}</td>
-              <td>{kw.cpc == null ? "-" : `$${kw.cpc.toFixed(2)}`}</td>
-              <td>
-                {kw.competition == null ? "-" : kw.competition.toFixed(2)}
-              </td>
-              <td>
-                <DifficultyBadge value={kw.keywordDifficulty} />
-              </td>
-              <td>
-                <span className="badge badge-sm badge-ghost">
-                  {(kw.intent && INTENT_LABELS[kw.intent]) ?? kw.intent ?? "?"}
-                </span>
-              </td>
-              <td>
-                {kw.aiCluster ? (
-                  <span className="badge badge-sm badge-info badge-outline border-info/30 bg-info/5 font-semibold">
-                    {kw.aiCluster}
-                  </span>
-                ) : (
-                  "-"
-                )}
-              </td>
-              <td className="text-xs text-base-content/50">
-                {kw.fetchedAt
-                  ? new Date(kw.fetchedAt).toLocaleDateString("pt-BR")
-                  : "-"}
-              </td>
-              <td>
-                <button
-                  className="btn btn-ghost btn-xs text-error"
-                  onClick={() => onRemoveKeyword(kw.id)}
-                  disabled={removingId === kw.id}
-                  title="Remover"
-                >
-                  {removingId === kw.id ? (
-                    <Loader2 className="size-3 animate-spin" />
-                  ) : (
-                    <Trash2 className="size-3" />
-                  )}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-function DifficultyBadge({ value }: { value: number | null }) {
-  if (value == null)
-    return <span className="badge badge-ghost badge-sm">-</span>;
-  if (value < 30)
-    return <span className="badge badge-success badge-sm">{value}</span>;
-  if (value <= 60)
-    return <span className="badge badge-warning badge-sm">{value}</span>;
-  return <span className="badge badge-error badge-sm">{value}</span>;
-}
-
-function formatNumber(value: number | null | undefined) {
-  if (value == null) return "-";
-  return new Intl.NumberFormat().format(value);
 }
