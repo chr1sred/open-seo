@@ -39,7 +39,7 @@ function KeywordResearchContent({
             <p className="text-sm">{controller.researchError}</p>
           </div>
           <button className="btn btn-sm" onClick={() => controller.onSearch()}>
-            Try again
+            Tentar novamente
           </button>
         </div>
       </div>
@@ -64,11 +64,11 @@ function KeywordSaveDialog({
     <div className="modal modal-open">
       <div className="modal-box">
         <h3 className="font-bold text-lg">
-          Save {controller.selectedRows.size} Keywords
+          Salvar {controller.selectedRows.size} palavras-chave
         </h3>
         <div className="py-4">
           <p className="text-base-content/70 text-sm">
-            These keywords will be saved to your current project.
+            Estas palavras-chave serão salvas no seu projeto atual.
           </p>
         </div>
         <div className="modal-action">
@@ -76,10 +76,10 @@ function KeywordSaveDialog({
             className="btn"
             onClick={() => controller.setShowSaveDialog(false)}
           >
-            Cancel
+            Cancelar
           </button>
           <button className="btn btn-primary" onClick={controller.confirmSave}>
-            Save
+            Salvar
           </button>
         </div>
       </div>

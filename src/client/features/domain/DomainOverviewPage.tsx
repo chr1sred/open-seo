@@ -48,10 +48,10 @@ export function DomainOverviewPage({
     <div className="px-4 py-4 md:px-6 md:py-6 pb-24 md:pb-8 overflow-auto">
       <div className="mx-auto max-w-7xl space-y-4">
         <div>
-          <h1 className="text-2xl font-semibold">Domain Overview</h1>
+          <h1 className="text-2xl font-semibold">Visão Geral de Domínio</h1>
           <p className="text-sm text-base-content/70">
-            Analyze any domain&apos;s SEO profile: traffic, keywords, and
-            backlinks.
+            Analise o perfil de SEO de qualquer domínio: tráfego, palavras-chave
+            e páginas.
           </p>
         </div>
 
@@ -85,14 +85,14 @@ export function DomainOverviewPage({
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <StatCard
-                label="Estimated Organic Traffic"
+                label="Tráfego orgânico estimado"
                 value={formatMetric(
                   state.overview.organicTraffic,
                   state.overview.hasData,
                 )}
               />
               <StatCard
-                label="Organic Keywords"
+                label="Palavras-chave orgânicas"
                 value={formatMetric(
                   state.overview.organicKeywords,
                   state.overview.hasData,
@@ -103,8 +103,8 @@ export function DomainOverviewPage({
             {!state.overview.hasData ? (
               <div className="alert alert-info">
                 <span>
-                  Not enough data for this domain yet. Try another domain or
-                  include subdomains.
+                  Ainda não há dados suficientes para este domínio. Tente outro
+                  domínio ou inclua os subdomínios.
                 </span>
               </div>
             ) : null}

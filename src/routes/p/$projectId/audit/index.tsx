@@ -110,17 +110,17 @@ function AuditDetail({
       <div className="mx-auto max-w-5xl space-y-4">
         <div className="space-y-1">
           <button className="btn btn-ghost btn-sm px-0" onClick={onBack}>
-            &larr; All audits
+            &larr; Todas as auditorias
           </button>
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold">Site Audit</h1>
+            <h1 className="text-2xl font-semibold">Auditoria de Site</h1>
             {status?.status !== "running" && status && (
               <StatusBadge status={status.status} />
             )}
           </div>
           {status && (
             <p className="text-sm text-base-content/70">
-              {extractHostname(status.startUrl)} &middot; Started{" "}
+              {extractHostname(status.startUrl)} &middot; Iniciada em{" "}
               {formatStartedAt(status.startedAt)}
             </p>
           )}
@@ -137,11 +137,12 @@ function AuditDetail({
             <AlertCircle className="size-5" />
             <div className="space-y-1">
               <p className="font-medium">
-                Site audit couldn't fully crawl this website.
+                A auditoria não conseguiu rastrear este site por completo.
               </p>
               <p>
-                This is often caused by anti-bot or firewall settings. Reach out
-                at{" "}
+                Normalmente isso é causado por proteções anti-bot ou firewall do
+                site. Ajuste essas configurações para liberar o rastreador ou
+                consulte{" "}
                 <a
                   className="link link-primary"
                   href={SUPPORT_URL}
@@ -150,7 +151,7 @@ function AuditDetail({
                 >
                   everyapp.dev/support
                 </a>{" "}
-                and we'll help configure auditing for your site.
+                para mais ajuda.
               </p>
             </div>
           </div>
@@ -193,14 +194,14 @@ function ProgressCard({
   const isPsiPhase = status.currentPhase === "psi";
   const phaseLabel =
     status.currentPhase === "discovery"
-      ? "Discovery"
+      ? "Descoberta"
       : status.currentPhase === "crawling"
-        ? "Crawling"
+        ? "Rastreamento"
         : status.currentPhase === "psi"
           ? "PSI"
           : status.currentPhase === "finalizing"
-            ? "Finalizing"
-            : (status.currentPhase ?? "Running");
+            ? "Finalizando"
+            : (status.currentPhase ?? "Em andamento");
   const progress = isPsiPhase ? psiProgress : crawlProgress;
 
   const crawlProgressQuery = useQuery({
@@ -218,7 +219,7 @@ function ProgressCard({
           <div className="flex items-center justify-between">
             <h2 className="font-medium flex items-center gap-2">
               <Loader2 className="size-4 animate-spin text-primary" />
-              {isPsiPhase ? "Running PSI checks" : "Crawling pages"}
+              {isPsiPhase ? "Executando testes PSI" : "Rastreando páginas"}
             </h2>
             <span className="badge badge-ghost badge-sm">{phaseLabel}</span>
           </div>
@@ -232,12 +233,12 @@ function ProgressCard({
           <div className="flex items-center justify-between text-sm">
             {isPsiPhase ? (
               <span>
-                {psiDone} / {status.psiTotal} checks
-                {status.psiFailed > 0 ? ` (${status.psiFailed} failed)` : ""}
+                {psiDone} / {status.psiTotal} testes
+                {status.psiFailed > 0 ? ` (${status.psiFailed} falharam)` : ""}
               </span>
             ) : (
               <span>
-                {status.pagesCrawled} / {status.pagesTotal} pages
+                {status.pagesCrawled} / {status.pagesTotal} páginas
               </span>
             )}
             <span className="text-base-content/60">{progress}%</span>
@@ -249,10 +250,11 @@ function ProgressCard({
         <div className="card bg-base-100 border border-base-300">
           <div className="card-body gap-2 p-4">
             <h3 className="text-sm font-medium text-base-content/70">
-              Crawled Pages ({crawledUrls.length})
+              Páginas rastreadas ({crawledUrls.length})
             </h3>
             <p className="text-xs text-base-content/50">
-              Updated {new Date(crawledUrls[0].crawledAt).toLocaleTimeString()}
+              Atualizado às{" "}
+              {new Date(crawledUrls[0].crawledAt).toLocaleTimeString("pt-BR")}
             </p>
             <div className="max-h-[400px] overflow-y-auto -mx-1">
               {crawledUrls.map((entry, i) => (

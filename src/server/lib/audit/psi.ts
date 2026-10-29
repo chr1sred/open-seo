@@ -23,7 +23,7 @@ export async function fetchPsiResult(
   apiKey: string,
 ): Promise<PsiResult> {
   // Build URL with multiple category params (PSI API allows repeated 'category')
-  const apiUrl = `${PSI_API_URL}?url=${encodeURIComponent(url)}&strategy=${strategy}&key=${encodeURIComponent(apiKey)}&category=performance&category=accessibility&category=best-practices&category=seo`;
+  const apiUrl = `${PSI_API_URL}?url=${encodeURIComponent(url)}&strategy=${strategy}&key=${encodeURIComponent(apiKey)}&category=performance&category=accessibility&category=best-practices&category=seo&locale=pt-BR`;
 
   let lastError: Error | null = null;
 

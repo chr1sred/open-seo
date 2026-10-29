@@ -32,7 +32,7 @@ export function saveSelectedKeywords({
   projectId: string;
 }) {
   if (selectedKeywords.size === 0) {
-    toast.error("Select at least one keyword first");
+    toast.error("Selecione pelo menos uma palavra-chave");
     return;
   }
 
@@ -43,8 +43,8 @@ export function saveSelectedKeywords({
     {
       projectId,
       keywords: [...selectedKeywords],
-      locationCode: 2840,
-      languageCode: "en",
+      locationCode: 2076,
+      languageCode: "pt",
       metrics: selectedRows.map((row) => ({
         keyword: row.keyword,
         searchVolume: row.searchVolume,
@@ -54,10 +54,10 @@ export function saveSelectedKeywords({
     },
     {
       onSuccess: () => {
-        toast.success(`Saved ${selectedKeywords.size} keywords`);
+        toast.success(`${selectedKeywords.size} palavras-chave salvas`);
       },
       onError: (error: unknown) => {
-        toast.error(getStandardErrorMessage(error, "Save failed."));
+        toast.error(getStandardErrorMessage(error, "Falha ao salvar."));
       },
     },
   );

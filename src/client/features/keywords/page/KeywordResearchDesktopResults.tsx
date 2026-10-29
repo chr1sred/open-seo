@@ -22,21 +22,21 @@ import {
 
 const MONTH_SHORT_LABELS = [
   "Jan",
-  "Feb",
+  "Fev",
   "Mar",
-  "Apr",
-  "May",
+  "Abr",
+  "Mai",
   "Jun",
   "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
+  "Ago",
+  "Set",
+  "Out",
   "Nov",
-  "Dec",
+  "Dez",
 ] as const;
 
 function formatTrendRangeLabel(trend: KeywordResearchRow["trend"]): string {
-  if (trend.length === 0) return "Last 12 available months";
+  if (trend.length === 0) return "Últimos 12 meses disponíveis";
 
   const sorted = trend.toSorted(
     (a, b) => a.year * 100 + a.month - (b.year * 100 + b.month),
@@ -83,13 +83,13 @@ function DesktopKeywordPanel({ controller }: Props) {
           className="rounded-lg border border-warning/40 bg-warning/15 px-3 py-2 text-sm text-base-content"
           role="status"
         >
-          No exact match for{" "}
-          <span className="font-medium">"{searchedKeyword}"</span>. Showing
-          closest related keywords instead.
+          Nenhuma correspondência exata para{" "}
+          <span className="font-medium">"{searchedKeyword}"</span>. Mostrando as
+          palavras-chave relacionadas mais próximas.
           {lastUsedFallback ? (
             <span className="text-base-content/75">
               {" "}
-              Source: {lastResultSource} fallback.
+              Fonte alternativa: {lastResultSource}.
             </span>
           ) : null}
         </div>
@@ -112,10 +112,10 @@ function DesktopTableCard({ controller }: Props) {
         <button
           className={`btn btn-ghost btn-sm gap-1.5 ${showFilters ? "btn-active" : ""}`}
           onClick={() => controller.setShowFilters((current) => !current)}
-          title="Toggle table filters"
+          title="Mostrar/ocultar filtros"
         >
           <SlidersHorizontal className="size-3.5" />
-          Filters
+          Filtros
           {activeFilterCount > 0 ? (
             <span className="badge badge-xs badge-primary border-0 text-primary-content">
               {activeFilterCount}
@@ -124,8 +124,8 @@ function DesktopTableCard({ controller }: Props) {
         </button>
         <span className="text-sm text-base-content/60">
           {selectedRows.size > 0
-            ? `${selectedRows.size} of ${filteredRows.length} selected`
-            : `${filteredRows.length} keywords`}
+            ? `${selectedRows.size} de ${filteredRows.length} selecionadas`
+            : `${filteredRows.length} palavras-chave`}
         </span>
         <div className="flex-1" />
         <button
@@ -134,7 +134,7 @@ function DesktopTableCard({ controller }: Props) {
           disabled={selectedRows.size === 0}
         >
           <Save className="size-3.5" />
-          <span className="hidden lg:inline">Save Keywords</span>
+          <span className="hidden lg:inline">Salvar palavras-chave</span>
         </button>
         <button
           className="btn btn-ghost btn-sm gap-1"
@@ -142,7 +142,7 @@ function DesktopTableCard({ controller }: Props) {
           disabled={filteredRows.length === 0}
         >
           <FileDown className="size-3.5" />
-          <span className="hidden lg:inline">Export</span>
+          <span className="hidden lg:inline">Exportar</span>
         </button>
       </div>
 
@@ -160,10 +160,10 @@ function DesktopFilters({ controller }: Props) {
     <div className="shrink-0 border-b border-base-300 bg-gradient-to-b from-base-100 to-base-200/30 px-4 py-3 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <p className="text-sm font-semibold">Refine table results</p>
+          <p className="text-sm font-semibold">Refinar resultados</p>
           {activeFilterCount > 0 ? (
             <span className="badge badge-xs badge-primary border-0 text-primary-content">
-              {activeFilterCount} active
+              {activeFilterCount} ativos
             </span>
           ) : null}
         </div>
@@ -173,7 +173,7 @@ function DesktopFilters({ controller }: Props) {
           disabled={activeFilterCount === 0}
         >
           <RotateCcw className="size-3" />
-          Clear all
+          Limpar tudo
         </button>
       </div>
 
@@ -181,21 +181,21 @@ function DesktopFilters({ controller }: Props) {
         <FilterTextInput
           form={filtersForm}
           name="include"
-          label="Include Terms"
-          placeholder="audit, checker, template"
+          label="Incluir termos"
+          placeholder="curso, grátis, modelo"
         />
         <FilterTextInput
           form={filtersForm}
           name="exclude"
-          label="Exclude Terms"
-          placeholder="jobs, salary, course"
+          label="Excluir termos"
+          placeholder="vagas, salário, emprego"
         />
       </div>
 
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
         <FilterRangeInputs
           form={filtersForm}
-          title="Search Volume"
+          title="Volume de busca"
           minName="minVol"
           maxName="maxVol"
         />
@@ -208,7 +208,7 @@ function DesktopFilters({ controller }: Props) {
         />
         <FilterRangeInputs
           form={filtersForm}
-          title="Difficulty"
+          title="Dificuldade"
           minName="minKd"
           maxName="maxKd"
         />
@@ -231,7 +231,7 @@ function DesktopTableHeader({ controller }: Props) {
         onChange={controller.toggleAllRows}
       />
       <SortHeader
-        label="Keyword"
+        label="Palavra-chave"
         field="keyword"
         current={controller.sortField}
         dir={controller.sortDir}
@@ -248,7 +248,7 @@ function DesktopTableHeader({ controller }: Props) {
       />
       <SortHeader
         label="CPC"
-        helpText="Cost per click in USD."
+        helpText="Custo por clique em USD."
         field="cpc"
         current={controller.sortField}
         dir={controller.sortDir}
@@ -256,8 +256,8 @@ function DesktopTableHeader({ controller }: Props) {
         className="w-14 text-right"
       />
       <SortHeader
-        label="Comp."
-        helpText="Advertiser competition."
+        label="Conc."
+        helpText="Concorrência entre anunciantes."
         field="competition"
         current={controller.sortField}
         dir={controller.sortDir}
@@ -265,8 +265,8 @@ function DesktopTableHeader({ controller }: Props) {
         className="w-12 text-right"
       />
       <SortHeader
-        label="Score"
-        helpText="Keyword difficulty score."
+        label="Dific."
+        helpText="Pontuação de dificuldade da palavra-chave."
         field="keywordDifficulty"
         current={controller.sortField}
         dir={controller.sortDir}
@@ -308,14 +308,14 @@ function DesktopSerpPanel({ controller }: Props) {
   const { overviewKeyword } = controller;
   const trendRangeLabel = overviewKeyword
     ? formatTrendRangeLabel(overviewKeyword.trend)
-    : "Last 12 available months";
+    : "Últimos 12 meses disponíveis";
 
   return (
     <div className="order-1 xl:order-2 flex flex-col min-w-0 gap-2 xl:flex-1">
       {overviewKeyword && overviewKeyword.trend.length > 0 ? (
         <div className="shrink-0 border border-base-300 rounded-xl bg-base-100 px-4 py-3">
           <h4 className="text-sm font-semibold mb-1">
-            Search Trends{" "}
+            Tendência de busca{" "}
             <span className="font-normal text-base-content/50">
               {trendRangeLabel}
             </span>
@@ -328,7 +328,7 @@ function DesktopSerpPanel({ controller }: Props) {
         <div className="shrink-0 px-4 py-3 border-b border-base-300">
           <h3 className="text-sm font-semibold flex items-center gap-1.5">
             <Globe className="size-3.5" />
-            SERP Analysis
+            Análise da SERP
             {controller.activeSerpKeyword ? (
               <span className="font-normal text-base-content/50 truncate">
                 : {controller.activeSerpKeyword}

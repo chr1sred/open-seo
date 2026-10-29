@@ -33,8 +33,8 @@ export function DomainKeywordsTable({
     <div className="overflow-x-auto">
       <div className="mb-2 text-xs text-base-content/60">
         {selectedKeywords.size > 0
-          ? `${selectedKeywords.size} selected`
-          : "Select keywords to save"}
+          ? `${selectedKeywords.size} selecionadas`
+          : "Selecione palavras-chave para salvar"}
       </div>
       <table className="table table-zebra table-sm">
         <thead>
@@ -52,10 +52,10 @@ export function DomainKeywordsTable({
                 onChange={onToggleAllVisible}
               />
             </th>
-            <th>Keyword</th>
+            <th>Palavra-chave</th>
             <th>
               <SortableHeader
-                label="Rank"
+                label="Posição"
                 isActive={sortMode === "rank"}
                 order={currentSortOrder}
                 onClick={() => onSortClick("rank")}
@@ -71,20 +71,23 @@ export function DomainKeywordsTable({
             </th>
             <th>
               <SortableHeader
-                label="Traffic"
+                label="Tráfego"
                 isActive={sortMode === "traffic"}
                 order={currentSortOrder}
                 onClick={() => onSortClick("traffic")}
               />
             </th>
             <th>
-              <HeaderHelpLabel label="CPC" helpText="Cost per click in USD." />
+              <HeaderHelpLabel
+                label="CPC"
+                helpText="Custo por clique em USD."
+              />
             </th>
             <th>URL</th>
             <th>
               <HeaderHelpLabel
-                label="Score"
-                helpText="Keyword difficulty score."
+                label="Dific."
+                helpText="Pontuação de dificuldade da palavra-chave."
               />
             </th>
           </tr>
@@ -93,7 +96,7 @@ export function DomainKeywordsTable({
           {rows.length === 0 ? (
             <tr>
               <td colSpan={8} className="py-6 text-center text-base-content/60">
-                No keywords match this search.
+                Nenhuma palavra-chave corresponde a esta busca.
               </td>
             </tr>
           ) : (
@@ -105,7 +108,7 @@ export function DomainKeywordsTable({
                     className="checkbox checkbox-xs"
                     checked={selectedKeywords.has(row.keyword)}
                     onChange={() => onToggleKeyword(row.keyword)}
-                    aria-label={`Select ${row.keyword}`}
+                    aria-label={`Selecionar ${row.keyword}`}
                   />
                 </td>
                 <td className="font-medium">{row.keyword}</td>

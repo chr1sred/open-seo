@@ -18,7 +18,7 @@ function PsiIssuesPage() {
       resultId={resultId}
       source={source}
       category={category}
-      backLabel={source === "site" ? "Site Audit" : "PSI"}
+      backLabel={source === "site" ? "Auditoria" : "PSI"}
       onBack={() =>
         void navigate({
           to: source === "site" ? "/p/$projectId/audit" : "..",

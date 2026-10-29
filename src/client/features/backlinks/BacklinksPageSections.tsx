@@ -28,18 +28,20 @@ export function BacklinksOverviewPanels({
   return (
     <>
       <div className="flex flex-wrap items-center gap-2 text-sm text-base-content/65">
-        <span className="badge badge-outline">{data.scope}</span>
-        <span>Target: {data.displayTarget}</span>
+        <span className="badge badge-outline">
+          {data.scope === "domain" ? "domínio" : "página"}
+        </span>
+        <span>Alvo: {data.displayTarget}</span>
         <span>-</span>
-        <span>Updated {formatRelativeTimestamp(data.fetchedAt)}</span>
+        <span>Atualizado em {formatRelativeTimestamp(data.fetchedAt)}</span>
       </div>
       <OverviewGrid data={data} summaryStats={summaryStats} />
       {data.scope === "page" ? (
         <div className="alert alert-info">
           <span>
-            Showing backlinks for this exact page. Enter a bare domain for
-            site-wide results. Trend charts are only shown for domain-level
-            lookups.
+            Mostrando backlinks desta página exata. Digite apenas o domínio para
+            ver os resultados do site inteiro. Os gráficos de tendência só
+            aparecem em consultas por domínio.
           </span>
         </div>
       ) : null}
@@ -86,13 +88,13 @@ export function BacklinksResultsCard({
           <BacklinksTable rows={filteredData.backlinks} />
         ) : null}
         {activeTab === "domains" && isTabLoading && !tabErrorMessage ? (
-          <TabLoadingState label="Loading referring domains" />
+          <TabLoadingState label="Carregando domínios de referência" />
         ) : null}
         {activeTab === "domains" && !isTabLoading && !tabErrorMessage ? (
           <ReferringDomainsTable rows={filteredData.referringDomains} />
         ) : null}
         {activeTab === "pages" && isTabLoading && !tabErrorMessage ? (
-          <TabLoadingState label="Loading top pages" />
+          <TabLoadingState label="Carregando principais páginas" />
         ) : null}
         {activeTab === "pages" && !isTabLoading && !tabErrorMessage ? (
           <TopPagesTable rows={filteredData.topPages} />
@@ -148,10 +150,10 @@ function ResultsHeader({
             tab="domains"
             onClick={onSetActiveTab}
           >
-            Referring Domains
+            Domínios de referência
           </TabButton>
           <TabButton activeTab={activeTab} tab="pages" onClick={onSetActiveTab}>
-            Top Pages
+            Principais páginas
           </TabButton>
         </div>
         <p className="max-w-xl text-sm text-base-content/60">
@@ -162,7 +164,7 @@ function ResultsHeader({
       <label className="input input-bordered input-sm flex w-full max-w-xs items-center gap-2">
         <Search className="size-4 text-base-content/60" />
         <input
-          placeholder="Filter current tab"
+          placeholder="Filtrar aba atual"
           value={filterText}
           onChange={(event) => onFilterTextChange(event.target.value)}
         />
@@ -205,14 +207,14 @@ function TrendPanels({ data }: { data: BacklinksOverviewData }) {
   return (
     <>
       <TrendCard
-        title="Backlink growth"
-        description="Backlinks and referring domains over the last year"
+        title="Crescimento de backlinks"
+        description="Backlinks e domínios de referência no último ano"
       >
         <BacklinksTrendChart data={data.trends} />
       </TrendCard>
       <TrendCard
-        title="New vs lost"
-        description="Backlink acquisition and attrition"
+        title="Novos x perdidos"
+        description="Backlinks conquistados e perdidos"
       >
         <BacklinksNewLostChart data={data.newLostTrends} />
       </TrendCard>

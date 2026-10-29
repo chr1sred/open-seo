@@ -24,7 +24,7 @@ export function useKeywordResearchData(addSearch: AddSearchFn) {
     useState<KeywordSource>("related");
   const [lastUsedFallback, setLastUsedFallback] = useState(false);
   const [lastSearchKeyword, setLastSearchKeyword] = useState("");
-  const [lastSearchLocationCode, setLastSearchLocationCode] = useState(2840);
+  const [lastSearchLocationCode, setLastSearchLocationCode] = useState(2076);
   const [researchError, setResearchError] = useState<string | null>(null);
   const [searchedKeyword, setSearchedKeyword] = useState("");
 
@@ -84,7 +84,7 @@ export function useKeywordResearchData(addSearch: AddSearchFn) {
             addSearch(
               seedKeyword,
               input.locationCode,
-              LOCATIONS[input.locationCode] || "Unknown",
+              LOCATIONS[input.locationCode] || "Desconhecido",
             );
           }
 
@@ -93,7 +93,9 @@ export function useKeywordResearchData(addSearch: AddSearchFn) {
         onError: (error) => {
           setLastSearchError(true);
           setRows([]);
-          setResearchError(getStandardErrorMessage(error, "Research failed."));
+          setResearchError(
+            getStandardErrorMessage(error, "A pesquisa falhou."),
+          );
           handlers?.onError?.();
         },
       },

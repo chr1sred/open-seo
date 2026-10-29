@@ -93,19 +93,19 @@ export function formatMetric(
   value: number | null | undefined,
   hasData: boolean | undefined,
 ) {
-  if (!hasData) return "Not enough data";
+  if (!hasData) return "Dados insuficientes";
   return formatNumber(value);
 }
 
 export function keywordsToCsv(rows: KeywordRow[]): string {
   const headers = [
-    "Keyword",
-    "Rank",
+    "Palavra-chave",
+    "Posição",
     "Volume",
-    "Traffic",
+    "Tráfego",
     "CPC",
     "URL",
-    "Score",
+    "Dificuldade",
   ];
   const lines = rows.map((row) => [
     row.keyword,
@@ -120,7 +120,7 @@ export function keywordsToCsv(rows: KeywordRow[]): string {
 }
 
 export function pagesToCsv(rows: PageRow[]): string {
-  const headers = ["Page", "Organic Traffic", "Keywords"];
+  const headers = ["Página", "Tráfego orgânico", "Palavras-chave"];
   const lines = rows.map((row) => [
     row.relativePath ?? row.page,
     row.organicTraffic,

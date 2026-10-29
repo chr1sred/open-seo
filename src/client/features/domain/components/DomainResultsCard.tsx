@@ -64,7 +64,7 @@ export function DomainResultsCard({
   const handleCopy = async () => {
     const text = JSON.stringify(currentRows, null, 2);
     await navigator.clipboard.writeText(text);
-    toast.success("Copied data");
+    toast.success("Dados copiados");
   };
 
   const handleDownload = (extension: "csv" | "xls") => {
@@ -93,7 +93,7 @@ export function DomainResultsCard({
           <label className="input input-bordered input-sm w-full max-w-xs flex items-center gap-2">
             <Search className="size-4 text-base-content/60" />
             <input
-              placeholder="Search in results"
+              placeholder="Buscar nos resultados"
               value={pendingSearch}
               onChange={(event) => onSearchChange(event.target.value)}
             />
@@ -147,14 +147,14 @@ function DomainResultsCardHeader({
           className={`tab ${activeTab === "keywords" ? "tab-active" : ""}`}
           onClick={() => onTabChange("keywords")}
         >
-          Top Keywords
+          Principais palavras-chave
         </button>
         <button
           role="tab"
           className={`tab ${activeTab === "pages" ? "tab-active" : ""}`}
           onClick={() => onTabChange("pages")}
         >
-          Top Pages
+          Principais páginas
         </button>
       </div>
 
@@ -165,13 +165,13 @@ function DomainResultsCardHeader({
             onClick={onSaveKeywords}
             disabled={selectedKeywordsCount === 0}
           >
-            <Save className="size-4" /> Save Keywords
+            <Save className="size-4" /> Salvar palavras-chave
           </button>
         ) : null}
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-sm gap-1">
             <Download className="size-4" />
-            Export
+            Exportar
             <ChevronDown className="size-3 opacity-60" />
           </div>
           <ul
@@ -181,19 +181,19 @@ function DomainResultsCardHeader({
             <li>
               <button onClick={onCopy}>
                 <Copy className="size-4" />
-                Copy data
+                Copiar dados
               </button>
             </li>
             <li>
               <button onClick={() => onDownload("csv")}>
                 <Download className="size-4" />
-                Download CSV
+                Baixar CSV
               </button>
             </li>
             <li>
               <button onClick={() => onDownload("xls")}>
                 <FileSpreadsheet className="size-4" />
-                Download Excel
+                Baixar Excel
               </button>
             </li>
           </ul>

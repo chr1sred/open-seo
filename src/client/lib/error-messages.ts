@@ -1,21 +1,22 @@
 import { isErrorCode, type ErrorCode } from "@/shared/error-codes";
 
 const STANDARD_MESSAGES: Record<ErrorCode, string> = {
-  UNAUTHENTICATED: "Please sign in and try again.",
-  FORBIDDEN: "You do not have access to this resource.",
-  NOT_FOUND: "The requested resource was not found.",
+  UNAUTHENTICATED: "Faça login e tente novamente.",
+  FORBIDDEN: "Você não tem acesso a este recurso.",
+  NOT_FOUND: "O recurso solicitado não foi encontrado.",
   AUDIT_CAPACITY_REACHED:
-    "You've reached audit capacity for your account. Delete old audits from your projects to start a new one.",
-  VALIDATION_ERROR: "Please check your input and try again.",
-  CRAWL_TARGET_BLOCKED: "This crawl target is blocked by security policy.",
+    "Você atingiu o limite de auditorias. Exclua auditorias antigas dos seus projetos para iniciar uma nova.",
+  VALIDATION_ERROR: "Verifique os dados informados e tente novamente.",
+  CRAWL_TARGET_BLOCKED:
+    "Este endereço está bloqueado pela política de segurança do rastreador.",
   BACKLINKS_NOT_ENABLED:
-    "Backlinks is not enabled for the connected DataForSEO account yet.",
+    "O módulo de Backlinks ainda não está ativado na sua conta DataForSEO.",
   BACKLINKS_BILLING_ISSUE:
-    "The connected DataForSEO account has a billing or balance issue.",
-  RATE_LIMITED: "Too many requests. Please wait and try again.",
-  CONFLICT: "This request conflicts with existing data.",
+    "A conta DataForSEO conectada tem um problema de cobrança ou saldo.",
+  RATE_LIMITED: "Muitas requisições. Aguarde um pouco e tente novamente.",
+  CONFLICT: "Esta solicitação conflita com dados existentes.",
   INTERNAL_ERROR:
-    "An unexpected error occurred. Please check server logs and try again.",
+    "Ocorreu um erro inesperado. Verifique os logs do servidor e tente novamente.",
 };
 
 export function getStandardErrorMessage(

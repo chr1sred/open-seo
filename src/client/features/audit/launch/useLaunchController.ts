@@ -77,18 +77,18 @@ export function useLaunchController({
     setState((prev) => ({ ...prev, startError: null }));
 
     if (!launchValues.url.trim())
-      return setState((prev) => ({ ...prev, urlError: "Please enter a URL." }));
+      return setState((prev) => ({ ...prev, urlError: "Digite uma URL." }));
     if (launchValues.runPsi && !settingsValues.psiApiKey.trim()) {
       return setState((prev) => ({
         ...prev,
         psiRequirementError:
-          "Set a Google PageSpeed Insights API key before running PSI checks.",
+          "Configure uma chave da API do Google PageSpeed Insights antes de rodar os testes PSI.",
         isSettingsOpen: true,
       }));
     }
     if (effectiveMaxPages > 500) {
       const confirmed = window.confirm(
-        `You are about to crawl ${effectiveMaxPages.toLocaleString()} pages. This is okay, but it may take a while. Continue?`,
+        `Você vai rastrear ${effectiveMaxPages.toLocaleString("pt-BR")} páginas. Isso pode demorar um pouco. Continuar?`,
       );
       if (!confirmed) return;
     }
@@ -111,13 +111,16 @@ export function useLaunchController({
             psiRequirementError: null,
             startError: null,
           }));
-          toast.success("Audit started!");
+          toast.success("Auditoria iniciada!");
           onAuditStarted(result.auditId);
         },
         onError: (error) => {
           setState((prev) => ({
             ...prev,
-            startError: getStandardErrorMessage(error, "Failed to start audit"),
+            startError: getStandardErrorMessage(
+              error,
+              "Falha ao iniciar a auditoria",
+            ),
           }));
         },
       },
@@ -182,7 +185,7 @@ function useLaunchMutations({
     mutationFn: (auditId: string) => deleteAudit({ data: { auditId } }),
     onSuccess: () => {
       void historyRefetch();
-      toast.success("Audit deleted");
+      toast.success("Auditoria excluída");
     },
   });
 
@@ -190,7 +193,7 @@ function useLaunchMutations({
     mutationFn: (apiKey: string) =>
       saveProjectPsiApiKey({ data: { projectId, apiKey } }),
     onSuccess: async () => {
-      toast.success("PSI API key saved for this project");
+      toast.success("Chave da API PSI salva neste projeto");
       await keyRefetch();
     },
   });
@@ -199,7 +202,7 @@ function useLaunchMutations({
     mutationFn: () => clearProjectPsiApiKey({ data: { projectId } }),
     onSuccess: async () => {
       clearPsiApiKeyField();
-      toast.success("PSI API key cleared");
+      toast.success("Chave da API PSI removida");
       await keyRefetch();
     },
   });
@@ -236,7 +239,7 @@ function handleSaveSettings(
   if (!trimmed) {
     setState((prev) => ({
       ...prev,
-      settingsError: "Please enter an API key.",
+      settingsError: "Digite uma chave de API.",
     }));
     return;
   }

@@ -13,21 +13,21 @@ function DataforseoApiKeyHelpPage() {
         <div className="card bg-base-100 border border-base-300">
           <div className="card-body gap-3">
             <h1 className="text-2xl font-semibold">
-              Set up your DataForSEO API key
+              Configure sua chave da API DataForSEO
             </h1>
             <p className="text-sm text-base-content/70">
-              OpenSEO needs the <code>DATAFORSEO_API_KEY</code> secret before
-              keyword, domain, and SEO data workflows can run.
+              O OpenSEO precisa da variável <code>DATAFORSEO_API_KEY</code> para
+              buscar dados de palavras-chave, domínios e SEO.
             </p>
           </div>
         </div>
 
         <div className="card bg-base-100 border border-base-300">
           <div className="card-body gap-4">
-            <h2 className="card-title text-base">Steps</h2>
+            <h2 className="card-title text-base">Passo a passo</h2>
             <ol className="list-decimal pl-5 text-sm space-y-3 text-base-content/80">
               <li>
-                Go to{" "}
+                Acesse{" "}
                 <a
                   className="link link-primary"
                   href={DATAFORSEO_API_ACCESS_URL}
@@ -36,18 +36,19 @@ function DataforseoApiKeyHelpPage() {
                 >
                   DataForSEO API Access
                 </a>{" "}
-                and request API credentials by email.
+                e copie o valor do campo <b>Base64 format</b> (ou peça as
+                credenciais da API por e-mail).
               </li>
               <li>
-                Base64 encode your DataForSEO login and API password in this
-                format:
+                Se preferir gerar manualmente, codifique em Base64 o login e a
+                senha da API neste formato:
                 <pre className="mt-2 p-3 rounded bg-base-200 border border-base-300 overflow-x-auto text-xs">
-                  <code>printf '%s' 'YOUR_LOGIN:YOUR_PASSWORD' | base64</code>
+                  <code>printf '%s' 'SEU_LOGIN:SUA_SENHA_API' | base64</code>
                 </pre>
               </li>
               <li>
-                Save the output as the <code>DATAFORSEO_API_KEY</code> secret in
-                your environment.
+                Salve o resultado na variável <code>DATAFORSEO_API_KEY</code> do
+                seu ambiente.
               </li>
             </ol>
           </div>
@@ -56,26 +57,27 @@ function DataforseoApiKeyHelpPage() {
         <div className="card bg-base-100 border border-base-300">
           <div className="card-body gap-2 text-sm text-base-content/75">
             <h2 className="card-title text-base">
-              Self-hosted (CapRover / Docker)
+              Hospedagem própria (CapRover / Docker)
             </h2>
             <ol className="list-decimal pl-5 space-y-2 text-sm text-base-content/80">
               <li>
-                In CapRover, open your OpenSEO app and go to{" "}
-                <code>App Configs</code> -&gt;{" "}
-                <code>Environmental Variables</code>.
+                No CapRover, abra o app do OpenSEO e vá em{" "}
+                <code>Configurações do App</code> -&gt;{" "}
+                <code>Variáveis de Ambiente</code>.
               </li>
               <li>
-                Add a variable named
+                Adicione a variável
                 <code className="mx-1">DATAFORSEO_API_KEY</code>
-                with the base64 value from the terminal command above.
+                com o valor em Base64.
               </li>
               <li>
-                Click <code>Save &amp; Update</code> to restart the app.
+                Clique em <code>Salvar &amp; Reiniciar</code>.
               </li>
             </ol>
             <p>
-              With Docker Compose, set <code>DATAFORSEO_API_KEY</code> in your{" "}
-              <code>.env</code> file and run <code>docker compose up -d</code>.
+              Com Docker Compose, defina <code>DATAFORSEO_API_KEY</code> no
+              arquivo <code>.env</code> e rode <code>docker compose up -d</code>
+              .
             </p>
           </div>
         </div>

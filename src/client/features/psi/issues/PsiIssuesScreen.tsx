@@ -154,10 +154,10 @@ function usePsiIssuesActions({
     try {
       const exported = await exportMutation.mutateAsync(data);
       downloadTextFile(exported.filename, exported.content, "application/json");
-      toast.success("Download started");
+      toast.success("Download iniciado");
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Failed to export payload";
+        error instanceof Error ? error.message : "Falha ao exportar";
       toast.error(message);
     }
   };
@@ -165,7 +165,7 @@ function usePsiIssuesActions({
   const runExportCsv = (rows: PsiIssue[], variant: "all" | "current") => {
     const filename = `psi-${variant}-${categorySlug(category)}-issues.csv`;
     downloadTextFile(filename, issuesToCsv(rows), "text/csv");
-    toast.success("CSV download started");
+    toast.success("Download do CSV iniciado");
   };
 
   const runCopy = async (data: ExportPayload, toastMessage: string) => {
@@ -175,7 +175,7 @@ function usePsiIssuesActions({
       toast.success(toastMessage);
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Failed to copy payload";
+        error instanceof Error ? error.message : "Falha ao copiar";
       toast.error(message);
     }
   };

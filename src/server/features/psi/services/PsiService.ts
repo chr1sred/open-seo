@@ -141,6 +141,7 @@ async function runAudit(input: {
     strategy: input.strategy,
   });
 
+  params.set("locale", "pt-BR");
   for (const category of PSI_CATEGORIES) {
     params.append("category", category);
   }

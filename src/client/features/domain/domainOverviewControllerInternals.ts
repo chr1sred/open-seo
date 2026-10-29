@@ -232,11 +232,12 @@ export function useDomainLookupMutation({
       languageCode: string;
     }) => getDomainOverview({ data }),
     onError: (error) => {
-      setOverviewError(getStandardErrorMessage(error, "Lookup failed."));
+      setOverviewError(getStandardErrorMessage(error, "A consulta falhou."));
     },
     onSuccess: (response) => {
       setOverview(response);
-      if (!response.hasData) toast.info("Not enough data for this domain");
+      if (!response.hasData)
+        toast.info("Dados insuficientes para este domínio");
     },
   });
 }
@@ -278,15 +279,13 @@ export function useSearchRunner({
     const activeSearch = params?.search ?? currentState.search;
 
     if (!rawTarget.trim()) {
-      setDomainError("Please enter a domain");
+      setDomainError("Digite um domínio");
       return;
     }
 
     const target = normalizeDomainTarget(rawTarget);
     if (!target) {
-      setDomainError(
-        "Please enter a valid URL or domain (e.g. browserbase.com)",
-      );
+      setDomainError("Digite uma URL ou domínio válido (ex.: exemplo.com.br)");
       return;
     }
 
@@ -310,8 +309,8 @@ export function useSearchRunner({
       {
         domain: target,
         includeSubdomains: activeSubdomains,
-        locationCode: 2840,
-        languageCode: "en",
+        locationCode: 2076,
+        languageCode: "pt",
       },
       {
         onSuccess: (response) => {
@@ -326,7 +325,9 @@ export function useSearchRunner({
           });
         },
         onError: (error) => {
-          setOverviewError(getStandardErrorMessage(error, "Lookup failed."));
+          setOverviewError(
+            getStandardErrorMessage(error, "A consulta falhou."),
+          );
         },
       },
     );

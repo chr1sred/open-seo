@@ -29,7 +29,7 @@ export function KeywordResearchSearchBar({ controller }: Props) {
             {(field) => (
               <input
                 className="grow min-w-0"
-                placeholder="Enter Keyword"
+                placeholder="Digite uma palavra-chave"
                 value={field.state.value}
                 onChange={(event) => {
                   field.handleChange(event.target.value);
@@ -70,7 +70,7 @@ export function KeywordResearchSearchBar({ controller }: Props) {
             >
               {RESULT_LIMITS.map((limit) => (
                 <option key={limit} value={limit}>
-                  {limit} results
+                  {limit} resultados
                 </option>
               ))}
             </select>
@@ -87,9 +87,9 @@ export function KeywordResearchSearchBar({ controller }: Props) {
               }
             >
               <option value="auto">Auto</option>
-              <option value="related">Related keywords</option>
-              <option value="suggestions">Suggestions</option>
-              <option value="ideas">Ideas</option>
+              <option value="related">Relacionadas</option>
+              <option value="suggestions">Sugestões</option>
+              <option value="ideas">Ideias</option>
             </select>
           )}
         </controlsForm.Field>
@@ -99,7 +99,7 @@ export function KeywordResearchSearchBar({ controller }: Props) {
           className="btn btn-primary btn-sm px-6 font-semibold"
           disabled={isLoading}
         >
-          {isLoading ? "Searching..." : "Search"}
+          {isLoading ? "Pesquisando..." : "Pesquisar"}
         </button>
       </form>
       {searchInputError ? (

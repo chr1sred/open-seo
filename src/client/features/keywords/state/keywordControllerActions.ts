@@ -118,7 +118,7 @@ export function useSearchActions(params: SearchActionParams) {
       .filter(Boolean);
 
     if (keywords.length === 0) {
-      setSearchInputError("Please enter at least one keyword.");
+      setSearchInputError("Digite pelo menos uma palavra-chave.");
       return;
     }
 
@@ -184,7 +184,7 @@ export function useSaveAndExportActions(params: SaveExportActionParams) {
 
   const handleSaveKeywords = () => {
     if (selectedRows.size === 0) {
-      toast.error("Select at least one keyword first");
+      toast.error("Selecione pelo menos uma palavra-chave");
       return;
     }
     setShowSaveDialog(true);
@@ -200,11 +200,11 @@ export function useSaveAndExportActions(params: SaveExportActionParams) {
       },
       {
         onSuccess: () => {
-          toast.success(`Saved ${selectedRows.size} keywords`);
+          toast.success(`${selectedRows.size} palavras-chave salvas`);
           setShowSaveDialog(false);
         },
         onError: (error: unknown) => {
-          toast.error(getStandardErrorMessage(error, "Save failed."));
+          toast.error(getStandardErrorMessage(error, "Falha ao salvar."));
         },
       },
     );
@@ -216,16 +216,16 @@ export function useSaveAndExportActions(params: SaveExportActionParams) {
         ? filteredRows.filter((row) => selectedRows.has(row.keyword))
         : filteredRows;
     if (source.length === 0) {
-      toast.error("No data to export");
+      toast.error("Não há dados para exportar");
       return;
     }
     const headers = [
-      "Keyword",
+      "Palavra-chave",
       "Volume",
       "CPC",
-      "Competition",
-      "Difficulty",
-      "Intent",
+      "Concorrência",
+      "Dificuldade",
+      "Intenção",
     ];
     const csvRows = source.map((row) => [
       row.keyword,

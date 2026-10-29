@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Sidebar } from "@/client/components/Sidebar";
 import { projectNavItems } from "@/client/navigation/items";
+import { BalanceButton } from "@/client/layout/BalancePanel";
 
 export function TopNav({
   drawerOpen,
@@ -26,13 +27,18 @@ export function TopNav({
         <button
           type="button"
           className="btn btn-square btn-ghost"
-          aria-label="Toggle sidebar"
+          aria-label="Abrir menu lateral"
           aria-expanded={drawerOpen}
           onClick={onOpenDrawer}
         >
           <Menu className="h-6 w-6" />
         </button>
         <span className="font-semibold text-base-content ml-1">OpenSEO</span>
+      </div>
+
+      <div className="flex-1 md:hidden" />
+      <div className="flex-none md:hidden">
+        <BalanceButton compact />
       </div>
 
       <div className="hidden md:flex items-center gap-1">
@@ -62,15 +68,16 @@ export function TopNav({
           : null}
       </div>
 
-      <div className="flex-1" />
+      <div className="hidden md:block flex-1" />
 
-      <div className="flex-none hidden md:flex">
+      <div className="flex-none hidden md:flex items-center gap-1">
+        <BalanceButton />
         <div
           className="tooltip tooltip-left before:whitespace-nowrap"
-          data-tip="Multiple projects coming soon"
+          data-tip="Múltiplos projetos em breve"
         >
           <button className="btn btn-ghost btn-sm font-medium text-sm gap-1 cursor-default">
-            <span className="truncate">Default</span>
+            <span className="truncate">Padrão</span>
             <ChevronsUpDown className="size-3.5 shrink-0 text-base-content/40" />
           </button>
         </div>
@@ -96,10 +103,10 @@ export function SeoApiStatusBanners({
             <div className="alert alert-warning">
               <AlertTriangle className="size-4 shrink-0" />
               <span className="text-sm">
-                Setup needed: add your DataForSEO API key to use OpenSEO
-                features. See the quick steps on the{" "}
+                Configuração necessária: adicione sua chave da API DataForSEO
+                para usar os recursos do OpenSEO. Veja o passo a passo na{" "}
                 <Link to={helpPath} className="link link-primary font-medium">
-                  help page
+                  página de ajuda
                 </Link>
                 .
               </span>
@@ -114,10 +121,10 @@ export function SeoApiStatusBanners({
             <div className="alert alert-info">
               <AlertTriangle className="size-4 shrink-0" />
               <span className="text-sm">
-                We could not verify your DataForSEO setup. If features are not
-                working, check the setup steps on the{" "}
+                Não foi possível verificar sua configuração da DataForSEO. Se
+                algo não funcionar, confira o passo a passo na{" "}
                 <Link to={helpPath} className="link link-primary font-medium">
-                  help page
+                  página de ajuda
                 </Link>
                 .
               </span>
@@ -151,7 +158,7 @@ export function AppContent({
           <div className="fixed inset-0 z-50">
             <button
               type="button"
-              aria-label="Close sidebar"
+              aria-label="Fechar menu lateral"
               className="absolute inset-0 bg-black/45"
               onClick={onCloseDrawer}
             />
@@ -204,23 +211,24 @@ export const MissingSeoSetupModal = React.forwardRef<
               id="dataforseo-setup-title"
               className="text-lg font-semibold text-base-content"
             >
-              One quick setup step
+              Falta só um passo
             </h2>
             <p
               id="dataforseo-setup-description"
               className="text-sm text-base-content/75"
             >
-              Add your DataForSEO API key to start using OpenSEO.
+              Adicione sua chave da API DataForSEO para começar a usar o
+              OpenSEO.
             </p>
           </div>
         </div>
 
         <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <button type="button" className="btn btn-ghost" onClick={onClose}>
-            Dismiss
+            Agora não
           </button>
           <Link to={helpPath} className="btn btn-primary" onClick={onClose}>
-            Open setup guide
+            Abrir guia de configuração
             <ExternalLink className="size-4" />
           </Link>
         </div>

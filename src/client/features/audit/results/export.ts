@@ -38,12 +38,12 @@ export function exportPages(
   const headers = [
     "URL",
     "Status",
-    "Title",
+    "Título",
     "H1",
-    "Words",
-    "Images",
-    "Missing Alt",
-    "Response Time (ms)",
+    "Palavras",
+    "Imagens",
+    "Sem texto alternativo",
+    "Tempo de resposta (ms)",
   ];
   const lines = rows.map((row) => [
     row.url,
@@ -90,9 +90,9 @@ export function exportPerformance(
 
   const headers = [
     "URL",
-    "Device",
-    "Performance",
-    "Accessibility",
+    "Dispositivo",
+    "Desempenho",
+    "Acessibilidade",
     "SEO",
     "LCP (ms)",
     "CLS",

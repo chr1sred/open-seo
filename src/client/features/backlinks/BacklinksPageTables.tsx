@@ -33,7 +33,9 @@ export function BacklinksTable({
   const sortedRows = useMemo(() => sortBacklinkRows(rows, sort), [rows, sort]);
 
   if (rows.length === 0) {
-    return <EmptyTableState label="No backlinks match this filter." />;
+    return (
+      <EmptyTableState label="Nenhum backlink corresponde a este filtro." />
+    );
   }
 
   return (
@@ -65,7 +67,9 @@ export function ReferringDomainsTable({
   );
 
   if (rows.length === 0) {
-    return <EmptyTableState label="No referring domains match this filter." />;
+    return (
+      <EmptyTableState label="Nenhum domínio de referência corresponde a este filtro." />
+    );
   }
 
   return (
@@ -83,9 +87,11 @@ export function ReferringDomainsTable({
               <td>{formatCompactDate(row.firstSeen)}</td>
               <td>
                 <div className="text-sm">
-                  <div>Broken links: {formatNumber(row.brokenBacklinks)}</div>
+                  <div>
+                    Links quebrados: {formatNumber(row.brokenBacklinks)}
+                  </div>
                   <div className="text-base-content/55">
-                    Broken pages: {formatNumber(row.brokenPages)}
+                    Páginas quebradas: {formatNumber(row.brokenPages)}
                   </div>
                 </div>
               </td>
@@ -106,7 +112,9 @@ export function TopPagesTable({
   const sortedRows = useMemo(() => sortTopPageRows(rows, sort), [rows, sort]);
 
   if (rows.length === 0) {
-    return <EmptyTableState label="No top pages match this filter." />;
+    return (
+      <EmptyTableState label="Nenhuma página corresponde a este filtro." />
+    );
   }
 
   return (
@@ -171,7 +179,7 @@ function BacklinksTableRow({
       </td>
       <td className="min-w-36">
         <div className="space-y-0.5">
-          <span className="text-sm">{row.anchor || "No anchor text"}</span>
+          <span className="text-sm">{row.anchor || "Sem texto âncora"}</span>
           {row.itemType ? (
             <div className="text-xs text-base-content/55">{row.itemType}</div>
           ) : null}
@@ -182,7 +190,7 @@ function BacklinksTableRow({
         <span
           title={
             row.spamScore != null
-              ? `Spam score: ${formatDecimal(row.spamScore)}`
+              ? `Pontuação de spam: ${formatDecimal(row.spamScore)}`
               : undefined
           }
         >
@@ -212,11 +220,13 @@ function BacklinkFlags({
   return (
     <div className="flex flex-wrap gap-1">
       {row.isLost ? (
-        <span className="badge badge-sm badge-error badge-outline">Lost</span>
+        <span className="badge badge-sm badge-error badge-outline">
+          Perdido
+        </span>
       ) : null}
       {row.isBroken ? (
         <span className="badge badge-sm badge-warning badge-outline">
-          Broken
+          Quebrado
         </span>
       ) : null}
       {row.isDofollow === false ? (

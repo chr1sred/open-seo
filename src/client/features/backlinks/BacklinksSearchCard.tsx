@@ -59,7 +59,7 @@ export function BacklinksSearchCard({
 
     const target = targetInput.trim();
     if (!target) {
-      setFormError("Enter a domain or URL to analyze.");
+      setFormError("Digite um domínio ou URL para analisar.");
       return;
     }
 
@@ -156,8 +156,8 @@ function SearchControls({
           <input
             placeholder={
               scope === "page"
-                ? "Enter a page URL or domain"
-                : "Enter a domain or URL"
+                ? "Digite a URL de uma página ou um domínio"
+                : "Digite um domínio ou URL"
             }
             value={targetInput}
             onChange={(event) => {
@@ -181,16 +181,16 @@ function SearchControls({
           value={status}
           onChange={(event) => onStatusChange(event.target.value)}
         >
-          <option value="live">Live links</option>
-          <option value="lost">Lost links</option>
-          <option value="all">All links</option>
+          <option value="live">Links ativos</option>
+          <option value="lost">Links perdidos</option>
+          <option value="all">Todos os links</option>
         </select>
         <button
           type="submit"
           className="btn btn-primary lg:col-span-2"
           disabled={isFetching}
         >
-          {isFetching ? "Loading..." : "Search"}
+          {isFetching ? "Carregando..." : "Pesquisar"}
         </button>
       </div>
       <div className="flex items-center gap-1">
@@ -202,7 +202,7 @@ function SearchControls({
             onScopeChange("domain");
           }}
         >
-          Site-wide
+          Site inteiro
         </button>
         <button
           type="button"
@@ -212,7 +212,7 @@ function SearchControls({
             onScopeChange("page");
           }}
         >
-          Exact page
+          Página exata
         </button>
       </div>
     </div>
@@ -239,14 +239,14 @@ function SearchToggles({
           checked={includeSubdomains}
           onChange={(event) => onIncludeSubdomainsChange(event.target.checked)}
         />
-        <span className="label-text">Include subdomains</span>
+        <span className="label-text">Incluir subdomínios</span>
       </label>
       <button
         type="button"
         className="btn btn-ghost btn-sm"
         onClick={toggleAdvanced}
       >
-        {showAdvanced ? "Hide advanced" : "Show advanced"}
+        {showAdvanced ? "Ocultar avançado" : "Mostrar avançado"}
       </button>
     </div>
   );
@@ -272,7 +272,7 @@ function AdvancedSearchOptions({
           checked={includeIndirectLinks}
           onChange={(event) => onIncludeIndirectChange(event.target.checked)}
         />
-        <span className="label-text">Include indirect links</span>
+        <span className="label-text">Incluir links indiretos</span>
       </label>
       <label className="label cursor-pointer justify-start gap-3 py-0">
         <input
@@ -281,7 +281,7 @@ function AdvancedSearchOptions({
           checked={excludeInternalBacklinks}
           onChange={(event) => onExcludeInternalChange(event.target.checked)}
         />
-        <span className="label-text">Exclude internal backlinks</span>
+        <span className="label-text">Excluir backlinks internos</span>
       </label>
     </div>
   );

@@ -4,9 +4,11 @@ import { buildCsv } from "@/client/lib/csv";
 import type { CategoryTab, PsiIssue } from "./types";
 
 export function categoryLabel(category: CategoryTab) {
-  if (category === "best-practices") return "Best practices";
-  if (category === "all") return "All";
-  return `${category.charAt(0).toUpperCase()}${category.slice(1)}`;
+  if (category === "best-practices") return "Boas práticas";
+  if (category === "all") return "Todas";
+  if (category === "performance") return "Desempenho";
+  if (category === "accessibility") return "Acessibilidade";
+  return "SEO";
 }
 
 export function categorySlug(category: CategoryTab) {
@@ -15,15 +17,15 @@ export function categorySlug(category: CategoryTab) {
 
 export function issuesToCsv(issues: PsiIssue[]) {
   const headers = [
-    "Category",
-    "Severity",
-    "Score",
-    "Title",
-    "Display Value",
-    "Description",
-    "Impact (ms)",
-    "Impact (bytes)",
-    "Affected Items",
+    "Categoria",
+    "Severidade",
+    "Pontuação",
+    "Título",
+    "Valor exibido",
+    "Descrição",
+    "Impacto (ms)",
+    "Impacto (bytes)",
+    "Itens afetados",
   ];
 
   const rows = issues.map((issue) => [

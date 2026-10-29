@@ -33,14 +33,14 @@ export function LaunchFormCard({
     <div className="card bg-base-100 border border-base-300">
       <div className="card-body gap-4">
         <div className="flex items-center justify-between">
-          <h2 className="card-title text-base">Start New Audit</h2>
+          <h2 className="card-title text-base">Nova auditoria</h2>
           <button
             type="button"
             className="btn btn-ghost btn-sm"
             onClick={onOpenSettings}
           >
             <Settings className="size-4" />
-            Settings
+            Configurações
           </button>
         </div>
 
@@ -54,7 +54,7 @@ export function LaunchFormCard({
             <launchForm.Field name="url">
               {(field) => (
                 <input
-                  placeholder="https://example.com"
+                  placeholder="https://exemplo.com.br"
                   value={field.state.value}
                   onChange={(event) => {
                     field.handleChange(event.target.value);
@@ -73,10 +73,10 @@ export function LaunchFormCard({
           >
             {isPending ? (
               <>
-                <Loader2 className="size-4 animate-spin" /> Starting...
+                <Loader2 className="size-4 animate-spin" /> Iniciando...
               </>
             ) : (
-              "Start Audit"
+              "Iniciar auditoria"
             )}
           </button>
 
@@ -109,10 +109,10 @@ function LaunchOptions({
   return (
     <div className="rounded-lg border border-base-300 bg-base-200/20 p-3 space-y-2">
       <label className="text-xs font-medium uppercase tracking-wide text-base-content/60">
-        Crawl limit
+        Limite de rastreamento
       </label>
       <div className="flex items-center gap-2">
-        <span className="text-sm text-base-content/70">Max pages</span>
+        <span className="text-sm text-base-content/70">Máx. de páginas</span>
         <launchForm.Field name="maxPagesInput">
           {(field) => (
             <input
@@ -132,7 +132,7 @@ function LaunchOptions({
         </launchForm.Field>
       </div>
       <p className="text-xs text-base-content/50">
-        Enter any value from {MIN_PAGES} to {MAX_PAGES_LIMIT}.
+        Digite um valor entre {MIN_PAGES} e {MAX_PAGES_LIMIT}.
       </p>
     </div>
   );
@@ -162,9 +162,9 @@ function PsiOptions({
         </launchForm.Field>
         <span
           className="text-sm font-medium text-base-content/80"
-          title="Run Google PageSpeed Insights checks during this audit"
+          title="Executar testes do Google PageSpeed Insights durante a auditoria"
         >
-          Include PSI checks
+          Incluir testes de PageSpeed (PSI)
         </span>
       </label>
 
@@ -172,7 +172,7 @@ function PsiOptions({
         {(runPsi) =>
           runPsi ? (
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-base-content/60">PSI mode</span>
+              <span className="text-xs text-base-content/60">Modo PSI</span>
               <launchForm.Field name="psiMode">
                 {(field) => (
                   <select
@@ -184,8 +184,10 @@ function PsiOptions({
                       )
                     }
                   >
-                    <option value="auto">Auto sample (recommended)</option>
-                    <option value="all">All crawled pages</option>
+                    <option value="auto">
+                      Amostra automática (recomendado)
+                    </option>
+                    <option value="all">Todas as páginas rastreadas</option>
                   </select>
                 )}
               </launchForm.Field>
@@ -196,7 +198,9 @@ function PsiOptions({
                   <span
                     className={`text-xs ${psiApiKey.trim() ? "text-success/80" : "text-warning"}`}
                   >
-                    {psiApiKey.trim() ? "PSI key saved" : "PSI key required"}
+                    {psiApiKey.trim()
+                      ? "Chave PSI salva"
+                      : "Chave PSI necessária"}
                   </span>
                 )}
               </settingsForm.Subscribe>

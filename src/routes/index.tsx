@@ -32,7 +32,7 @@ function IndexRedirect() {
           <p className="text-error text-center">
             {getStandardErrorMessage(
               error,
-              "An unexpected error occurred. Please check server logs.",
+              "Ocorreu um erro inesperado. Verifique os logs do servidor.",
             )}
           </p>
         </div>

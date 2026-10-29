@@ -27,7 +27,10 @@ export function useKeywordSerpAnalysis(locationCode: number) {
     serpKeyword ?? serpQuery.data?.requestedKeyword ?? null;
   const serpLoading = serpQuery.isLoading;
   const serpError = serpQuery.isError
-    ? getStandardErrorMessage(serpQuery.error, "Failed to load SERP data.")
+    ? getStandardErrorMessage(
+        serpQuery.error,
+        "Falha ao carregar os dados da SERP.",
+      )
     : null;
 
   return {

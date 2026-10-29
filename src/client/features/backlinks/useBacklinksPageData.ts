@@ -30,7 +30,7 @@ function getBacklinksErrorMessage(
 ): string | null {
   if (!error) return null;
   if (getErrorCode(error) === "VALIDATION_ERROR") {
-    return "Enter a valid domain or page URL.";
+    return "Digite um domínio ou URL de página válido.";
   }
 
   return getStandardErrorMessage(error, fallback);
@@ -48,7 +48,7 @@ export function useBacklinksPageData({
   const accessStatusErrorMessage = accessStatusQuery.error
     ? getStandardErrorMessage(
         accessStatusQuery.error,
-        "Could not load Backlinks setup status.",
+        "Não foi possível carregar o status de configuração dos Backlinks.",
       )
     : null;
   const backlinksEnabled = accessStatus?.enabled ?? false;
@@ -118,7 +118,7 @@ export function useBacklinksPageData({
 
   const overviewErrorMessage = getBacklinksErrorMessage(
     overviewQuery.error,
-    "Could not load backlinks data.",
+    "Não foi possível carregar os dados de backlinks.",
   );
   const backlinksDisabledByError =
     getErrorCode(overviewQuery.error) === "BACKLINKS_NOT_ENABLED";
@@ -129,7 +129,7 @@ export function useBacklinksPageData({
   );
   const activeTabErrorMessage = getBacklinksErrorMessage(
     activeTabError,
-    "Could not load this tab.",
+    "Não foi possível carregar esta aba.",
   );
   const backlinksDisabledByTabError =
     getErrorCode(activeTabError) === "BACKLINKS_NOT_ENABLED";

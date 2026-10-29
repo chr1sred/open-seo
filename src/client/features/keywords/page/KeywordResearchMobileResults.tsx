@@ -23,7 +23,7 @@ export function KeywordResearchMobileResults({ controller }: Props) {
           }`}
           onClick={() => controller.setMobileTab("keywords")}
         >
-          Keywords ({filteredRows.length})
+          Palavras-chave ({filteredRows.length})
         </button>
         <button
           className={`flex-1 py-2 text-sm font-medium text-center border-b-2 transition-colors ${
@@ -33,7 +33,7 @@ export function KeywordResearchMobileResults({ controller }: Props) {
           }`}
           onClick={() => controller.setMobileTab("serp")}
         >
-          SERP Analysis
+          Análise da SERP
         </button>
       </div>
 
@@ -68,9 +68,9 @@ function MobileKeywordCards({ controller }: Props) {
           className="mx-4 mt-2 rounded-lg border border-warning/40 bg-warning/15 px-3 py-2 text-xs text-base-content"
           role="status"
         >
-          No exact match for{" "}
+          Nenhuma correspondência exata para{" "}
           <span className="font-medium">"{controller.searchedKeyword}"</span>.
-          Showing closest related keywords.
+          Mostrando as palavras-chave relacionadas mais próximas.
         </div>
       ) : null}
 
@@ -80,7 +80,7 @@ function MobileKeywordCards({ controller }: Props) {
           onClick={() => controller.setShowFilters((current) => !current)}
         >
           <SlidersHorizontal className="size-3.5" />
-          Filters
+          Filtros
           {activeFilterCount > 0 ? (
             <span className="badge badge-xs badge-primary border-0 text-primary-content">
               {activeFilterCount}
@@ -89,8 +89,8 @@ function MobileKeywordCards({ controller }: Props) {
         </button>
         <span className="text-xs text-base-content/60">
           {selectedRows.size > 0
-            ? `${selectedRows.size} selected`
-            : `${filteredRows.length} keywords`}
+            ? `${selectedRows.size} selecionadas`
+            : `${filteredRows.length} palavras-chave`}
         </span>
         <div className="flex-1" />
         <button
@@ -115,14 +115,14 @@ function MobileKeywordCards({ controller }: Props) {
         {filteredRows.length === 0 ? (
           <div className="h-full min-h-48 flex flex-col items-center justify-center text-center px-4 text-base-content/50 gap-3">
             <p className="text-sm font-medium">
-              No keywords match your current filters.
+              Nenhuma palavra-chave corresponde aos filtros atuais.
             </p>
             {activeFilterCount > 0 ? (
               <button
                 className="btn btn-ghost btn-sm"
                 onClick={controller.resetFilters}
               >
-                Clear filters
+                Limpar filtros
               </button>
             ) : null}
           </div>
@@ -150,7 +150,7 @@ function MobileFilters({ controller }: Props) {
     <div className="shrink-0 border-b border-base-300 bg-gradient-to-b from-base-100 to-base-200/30 px-4 py-3 space-y-3">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <p className="text-xs font-semibold">Refine table results</p>
+          <p className="text-xs font-semibold">Refinar resultados</p>
           {activeFilterCount > 0 ? (
             <span className="badge badge-xs badge-primary border-0 text-primary-content">
               {activeFilterCount}
@@ -163,7 +163,7 @@ function MobileFilters({ controller }: Props) {
           disabled={activeFilterCount === 0}
         >
           <RotateCcw className="size-3" />
-          Clear
+          Limpar
         </button>
       </div>
 
@@ -172,7 +172,7 @@ function MobileFilters({ controller }: Props) {
           {(field) => (
             <input
               className="input input-bordered input-sm bg-base-100"
-              placeholder="Include terms (audit, checker)"
+              placeholder="Incluir termos (curso, grátis)"
               value={field.state.value}
               onChange={(event) => field.handleChange(event.target.value)}
             />
@@ -182,7 +182,7 @@ function MobileFilters({ controller }: Props) {
           {(field) => (
             <input
               className="input input-bordered input-sm bg-base-100"
-              placeholder="Exclude terms (jobs, course)"
+              placeholder="Excluir termos (vagas, emprego)"
               value={field.state.value}
               onChange={(event) => field.handleChange(event.target.value)}
             />
@@ -194,34 +194,34 @@ function MobileFilters({ controller }: Props) {
         <MobileRangeInput
           form={filtersForm}
           name="minVol"
-          placeholder="Min volume"
+          placeholder="Volume mín."
         />
         <MobileRangeInput
           form={filtersForm}
           name="maxVol"
-          placeholder="Max volume"
+          placeholder="Volume máx."
         />
         <MobileRangeInput
           form={filtersForm}
           name="minCpc"
-          placeholder="Min CPC"
+          placeholder="CPC mín."
           step="0.01"
         />
         <MobileRangeInput
           form={filtersForm}
           name="maxCpc"
-          placeholder="Max CPC"
+          placeholder="CPC máx."
           step="0.01"
         />
         <MobileRangeInput
           form={filtersForm}
           name="minKd"
-          placeholder="Min difficulty"
+          placeholder="Dificuldade mín."
         />
         <MobileRangeInput
           form={filtersForm}
           name="maxKd"
-          placeholder="Max difficulty"
+          placeholder="Dificuldade máx."
         />
       </div>
     </div>

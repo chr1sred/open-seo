@@ -18,12 +18,12 @@ export function PagesTable({ pages }: { pages: AuditResultsData["pages"] }) {
           <tr>
             <th>URL</th>
             <th>Status</th>
-            <th>Title</th>
+            <th>Título</th>
             <th>Meta</th>
             <th>H1</th>
-            <th>Words</th>
-            <th>Images</th>
-            <th>Speed</th>
+            <th>Palavras</th>
+            <th>Imagens</th>
+            <th>Velocidade</th>
           </tr>
         </thead>
         <tbody>
@@ -51,11 +51,17 @@ export function PagesTable({ pages }: { pages: AuditResultsData["pages"] }) {
                   </span>
                 )}
               </td>
-              <td className="max-w-[160px] truncate" title={page.metaDescription ?? ""}>
+              <td
+                className="max-w-[160px] truncate"
+                title={page.metaDescription ?? ""}
+              >
                 {page.metaDescription || (
                   <span className="text-warning text-xs flex flex-row items-center">
                     missing
-                    <AiFixButton auditPageId={page.id} issueType="missing_meta_description" />
+                    <AiFixButton
+                      auditPageId={page.id}
+                      issueType="missing_meta_description"
+                    />
                   </span>
                 )}
               </td>
@@ -64,8 +70,13 @@ export function PagesTable({ pages }: { pages: AuditResultsData["pages"] }) {
               <td>
                 {page.imagesMissingAlt > 0 ? (
                   <span className="text-warning flex flex-col items-start">
-                    <span>{page.imagesMissingAlt}/{page.imagesTotal} missing alt</span>
-                    <AiFixButton auditPageId={page.id} issueType="missing_alt_text" />
+                    <span>
+                      {page.imagesMissingAlt}/{page.imagesTotal} missing alt
+                    </span>
+                    <AiFixButton
+                      auditPageId={page.id}
+                      issueType="missing_alt_text"
+                    />
                   </span>
                 ) : (
                   page.imagesTotal
@@ -97,16 +108,16 @@ export function PerformanceTable({
         <thead>
           <tr>
             <th>URL</th>
-            <th>Device</th>
+            <th>Dispositivo</th>
             <th>Status</th>
-            <th>Perf</th>
+            <th>Desemp.</th>
             <th>A11y</th>
             <th>SEO</th>
             <th>LCP</th>
             <th>CLS</th>
             <th>INP</th>
             <th>TTFB</th>
-            <th>Issues</th>
+            <th>Problemas</th>
           </tr>
         </thead>
         <tbody>
@@ -140,14 +151,16 @@ function PerformanceRow({
       <td className="max-w-[160px] truncate text-xs">
         {page ? extractPathname(page.url) : "-"}
       </td>
-      <td className="capitalize text-xs">{result.strategy}</td>
+      <td className="capitalize text-xs">
+        {result.strategy === "desktop" ? "desktop" : "celular"}
+      </td>
       <td>
         {isFailed ? (
           <span
             className="badge badge-error badge-outline text-xs"
-            title={result.errorMessage ?? "PSI check failed"}
+            title={result.errorMessage ?? "Teste PSI falhou"}
           >
-            failed
+            falhou
           </span>
         ) : (
           <span className="badge badge-success badge-outline text-xs">ok</span>
@@ -180,7 +193,7 @@ function PerformanceRow({
             className="btn btn-primary btn-xs"
             href={`/p/${projectId}/audit/issues/${result.id}?source=site&category=performance`}
           >
-            View issues
+            Ver problemas
           </a>
         ) : (
           <span className="text-xs text-base-content/40">-</span>
@@ -199,7 +212,7 @@ export function ExportDropdown({
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn btn-sm btn-ghost gap-1">
         <Download className="size-4" />
-        Export
+        Exportar
         <ChevronDown className="size-3 opacity-60" />
       </div>
       <ul
@@ -230,12 +243,12 @@ function AiFixButton({
     mutationFn: () => generateAiAuditFix({ data: { auditPageId, issueType } }),
     onSuccess: (res: any) => {
       if (res.error) {
-        toast.error(`Fix Generation Failed: ${res.error}`);
+        toast.error(`Falha ao gerar correção: ${res.error}`);
       } else {
         setFixText(res.fix);
       }
     },
-    onError: () => toast.error("Failed to generate AI fix"),
+    onError: () => toast.error("Falha ao gerar correção com IA"),
   });
 
   if (fixText) {
@@ -248,10 +261,10 @@ function AiFixButton({
           className="btn btn-xs btn-outline h-5 min-h-0"
           onClick={() => {
             navigator.clipboard.writeText(fixText);
-            toast.success("Copied to clipboard!");
+            toast.success("Copiado!");
           }}
         >
-          Copy
+          Copiar
         </button>
       </div>
     );
@@ -262,12 +275,12 @@ function AiFixButton({
       className="btn btn-xs btn-ghost text-info ml-1 px-1 h-5 min-h-0"
       onClick={() => fixMutation.mutate()}
       disabled={fixMutation.isPending}
-      title="Generate with AI"
+      title="Gerar com IA"
     >
       {fixMutation.isPending ? (
         <Loader2 className="size-3 animate-spin" />
       ) : (
-        "✨ Fix"
+        "✨ Corrigir"
       )}
     </button>
   );

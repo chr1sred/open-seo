@@ -28,10 +28,10 @@ export function DomainPagesTable({
       <table className="table table-zebra table-sm">
         <thead>
           <tr>
-            <th>Page</th>
+            <th>Página</th>
             <th>
               <SortableHeader
-                label="Organic Traffic"
+                label="Tráfego orgânico"
                 isActive={toPageSortMode(sortMode) === "traffic"}
                 order={currentSortOrder}
                 onClick={() => onSortClick("traffic")}
@@ -39,7 +39,7 @@ export function DomainPagesTable({
             </th>
             <th>
               <SortableHeader
-                label="Keywords"
+                label="Palavras-chave"
                 isActive={toPageSortMode(sortMode) === "volume"}
                 order={currentSortOrder}
                 onClick={() => onSortClick("volume")}
@@ -51,7 +51,7 @@ export function DomainPagesTable({
           {rows.length === 0 ? (
             <tr>
               <td colSpan={3} className="py-6 text-center text-base-content/60">
-                No pages match this search.
+                Nenhuma página corresponde a esta busca.
               </td>
             </tr>
           ) : (

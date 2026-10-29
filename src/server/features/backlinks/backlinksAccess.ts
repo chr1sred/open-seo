@@ -14,7 +14,7 @@ const backlinksAccessStatusSchema = z.object({
 type BacklinksAccessStatus = z.infer<typeof backlinksAccessStatusSchema>;
 
 const BACKLINKS_NOT_ENABLED_MESSAGE =
-  "Backlinks access check failed - it's still not enabled for your DataForSEO account. Enable it in DataForSEO, then try again.";
+  "A verificação de acesso falhou: os Backlinks ainda não estão ativos na sua conta DataForSEO. Ative-os na DataForSEO e tente novamente.";
 
 export async function getBacklinksAccessStatus(): Promise<BacklinksAccessStatus> {
   const kv = await getKvNamespace();

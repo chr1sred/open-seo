@@ -41,15 +41,15 @@ export function BacklinksSetupGate({
             <Wrench className="size-5" />
           </div>
           <div className="max-w-3xl space-y-1.5">
-            <h2 className="text-xl font-semibold">Enable Backlinks</h2>
+            <h2 className="text-xl font-semibold">Ativar Backlinks</h2>
             <p className="text-sm text-base-content/68">
-              Backlinks is not enabled for your DataForSEO account yet. Turn it
-              on in DataForSEO, then test access here.
+              O módulo de Backlinks ainda não está ativo na sua conta
+              DataForSEO. Ative-o na DataForSEO e depois teste o acesso aqui.
             </p>
             <p className="text-xs text-base-content/50">
-              DataForSEO offers a free 14-day trial for Backlinks. Then, it's
-              $100/month. We're gauging interest in building out a lower-cost
-              alternative, <InlineMailingListLink /> if you're interested.
+              A DataForSEO oferece 14 dias grátis de Backlinks. Depois, custa
+              US$ 100/mês. Há planos de uma alternativa mais barata:{" "}
+              <InlineMailingListLink /> se tiver interesse.
             </p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export function BacklinksSetupGate({
             onClick={onTest}
             disabled={isTesting}
           >
-            {isTesting ? "Confirming..." : "Confirm Backlinks Access"}
+            {isTesting ? "Confirmando..." : "Confirmar acesso aos Backlinks"}
           </button>
           <a
             className="btn btn-outline"
@@ -68,7 +68,7 @@ export function BacklinksSetupGate({
             target="_blank"
             rel="noreferrer"
           >
-            Open DataForSEO Backlinks
+            Abrir Backlinks na DataForSEO
           </a>
         </div>
 
@@ -85,28 +85,30 @@ export function BacklinksEmptyState() {
         <Link2 className="size-6" />
       </div>
       <div className="space-y-2">
-        <p className="text-lg font-medium">Start with a domain or page URL</p>
+        <p className="text-lg font-medium">
+          Comece com um domínio ou URL de página
+        </p>
         <p className="mx-auto max-w-2xl text-sm text-base-content/65">
-          Keep backlink research simple: see who links to you, check what pages
-          attract links, and spot recent wins or losses without getting buried
-          in enterprise SEO dashboards.
+          Pesquisa de backlinks sem complicação: veja quem aponta para você,
+          quais páginas atraem links e os ganhos ou perdas recentes, sem se
+          perder em painéis corporativos de SEO.
         </p>
       </div>
       <div className="grid gap-3 pt-2 text-left md:grid-cols-3">
         <BeginnerCard
           icon={TrendingUp}
-          title="Check link health"
-          body="Use the overview to see backlink totals, referring domains, and broken links worth fixing."
+          title="Verifique a saúde dos links"
+          body="Use a visão geral para ver o total de backlinks, domínios de referência e links quebrados que valem a correção."
         />
         <BeginnerCard
           icon={Sparkles}
-          title="Review real links"
-          body="Start with the backlinks tab to see the pages linking to you and the strongest sources first."
+          title="Revise os links reais"
+          body="Comece pela aba de backlinks para ver as páginas que apontam para você e as fontes mais fortes primeiro."
         />
         <BeginnerCard
           icon={ShieldAlert}
-          title="Find easy actions"
-          body="Look for broken targets, recently lost links, and your most-linked pages to decide what to do next."
+          title="Encontre ações fáceis"
+          body="Procure destinos quebrados, links perdidos recentemente e suas páginas mais linkadas para decidir o próximo passo."
         />
       </div>
     </section>
@@ -160,14 +162,16 @@ export function BacklinksErrorState({
           <ShieldAlert className="size-5" />
         </div>
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold">Could not load backlinks</h2>
+          <h2 className="text-lg font-semibold">
+            Não foi possível carregar os backlinks
+          </h2>
           <p className="text-sm text-base-content/70">
-            {errorMessage ?? "Please try again in a moment."}
+            {errorMessage ?? "Tente novamente em instantes."}
           </p>
         </div>
       </div>
       <button className="btn btn-outline btn-sm" onClick={onRetry}>
-        Retry
+        Tentar novamente
       </button>
     </section>
   );
@@ -184,7 +188,7 @@ function BacklinksSetupFeedback({
     <div className="space-y-3">
       {status?.lastCheckedAt ? (
         <div className="text-sm text-base-content/60">
-          Last checked {formatRelativeTimestamp(status.lastCheckedAt)}.
+          Última verificação: {formatRelativeTimestamp(status.lastCheckedAt)}.
         </div>
       ) : null}
       {status?.lastErrorMessage ? (
@@ -229,7 +233,7 @@ function InlineMailingListLink() {
       target="_blank"
       rel="noreferrer"
     >
-      join the OpenSEO mailing list
+      entre na lista de e-mails do OpenSEO
     </a>
   );
 }

@@ -34,8 +34,8 @@ export function BacklinksPage({
         <div>
           <h1 className="text-2xl font-semibold">Backlinks</h1>
           <p className="text-sm text-base-content/70">
-            Understand who links to a site, what changed recently, and which
-            pages attract links.
+            Entenda quem aponta links para um site, o que mudou recentemente e
+            quais páginas atraem mais links.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export function BacklinksPage({
             testAccessMutation.error
               ? getStandardErrorMessage(
                   testAccessMutation.error,
-                  "Could not test Backlinks access.",
+                  "Não foi possível testar o acesso aos Backlinks.",
                 )
               : null
           }

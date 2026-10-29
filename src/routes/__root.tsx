@@ -179,7 +179,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     import.meta.env.DEV && import.meta.env.VITE_SHOW_DEVTOOLS !== "false";
 
   return (
-    <html>
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>

@@ -34,10 +34,10 @@ function SavedKeywordsPage() {
       void queryClient.invalidateQueries({
         queryKey: ["savedKeywords", projectId],
       });
-      toast.success("Keyword removed");
+      toast.success("Palavra-chave removida");
     },
     onError: (error) => {
-      setRemoveError(getStandardErrorMessage(error, "Remove failed."));
+      setRemoveError(getStandardErrorMessage(error, "Falha ao remover."));
     },
   });
 
@@ -45,16 +45,22 @@ function SavedKeywordsPage() {
     mutationFn: (pId: string) => clusterKeywords({ data: { projectId: pId } }),
     onSuccess: (res: any) => {
       if (res.success && res.clustersUpdated > 0) {
-        toast.success(`Successfully clustered ${res.clustersUpdated} keywords!`);
-        void queryClient.invalidateQueries({ queryKey: ["savedKeywords", projectId] });
+        toast.success(
+          `${res.clustersUpdated} palavras-chave agrupadas com sucesso!`,
+        );
+        void queryClient.invalidateQueries({
+          queryKey: ["savedKeywords", projectId],
+        });
       } else if (res.error) {
-        toast.error(`Auto-Cluster Failed: ${res.error}`);
+        toast.error(`Falha no agrupamento automático: ${res.error}`);
       } else {
-        toast.error("No keywords needed clustering.");
+        toast.error("Nenhuma palavra-chave precisou ser agrupada.");
       }
     },
     onError: (error) => {
-      toast.error(getStandardErrorMessage(error, "AI Clustering failed."));
+      toast.error(
+        getStandardErrorMessage(error, "Falha no agrupamento com IA."),
+      );
     },
   });
 
@@ -72,18 +78,18 @@ function SavedKeywordsPage() {
 
   const exportCsv = () => {
     if (savedKeywords.length === 0) {
-      toast.error("No keywords to export");
+      toast.error("Não há palavras-chave para exportar");
       return;
     }
 
     const headers = [
-      "Keyword",
+      "Palavra-chave",
       "Volume",
       "CPC",
-      "Competition",
-      "Difficulty",
-      "Intent",
-      "Fetched At",
+      "Concorrência",
+      "Dificuldade",
+      "Intenção",
+      "Atualizado em",
     ];
     const csvRows = savedKeywords.map((kw) => [
       kw.keyword,
@@ -146,23 +152,27 @@ function SavedKeywordsContent({
       <div className="mx-auto max-w-5xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold">Saved Keywords</h1>
+            <h1 className="text-2xl font-semibold">Palavras Salvas</h1>
             <p className="text-sm text-base-content/70">
-              Keywords you&apos;ve saved from keyword research.
+              Palavras-chave que você salvou na pesquisa de palavras-chave.
             </p>
           </div>
           {savedKeywords.length > 0 && (
             <div className="flex gap-2">
-              <button 
-                className="btn btn-sm btn-secondary" 
-                onClick={onCluster} 
+              <button
+                className="btn btn-sm btn-secondary"
+                onClick={onCluster}
                 disabled={isClustering}
               >
-                {isClustering ? <Loader2 className="size-4 animate-spin" /> : "✨"} 
-                Auto-Cluster
+                {isClustering ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  "✨"
+                )}
+                Agrupar com IA
               </button>
               <button className="btn btn-sm" onClick={onExportCsv}>
-                <Download className="size-4" /> Export CSV
+                <Download className="size-4" /> Exportar CSV
               </button>
             </div>
           )}
@@ -193,8 +203,8 @@ function SavedKeywordsContent({
             <div className="card-body text-center py-12 text-base-content/50">
               <Search className="size-8 mx-auto mb-2 opacity-40" />
               <p>
-                No saved keywords yet. Use the Keyword Research page to find and
-                save keywords.
+                Nenhuma palavra-chave salva ainda. Use a página de
+                Palavras-chave para encontrar e salvar termos.
               </p>
             </div>
           </div>
@@ -208,8 +218,8 @@ function SavedKeywordsContent({
                 </div>
               ) : null}
               <p className="text-sm text-base-content/70">
-                {savedKeywords.length} saved keyword
-                {savedKeywords.length !== 1 ? "s" : ""}
+                {savedKeywords.length} palavra
+                {savedKeywords.length !== 1 ? "s-chave salvas" : "-chave salva"}
               </p>
               <SavedKeywordsTable
                 rows={savedKeywords}
@@ -223,6 +233,13 @@ function SavedKeywordsContent({
     </div>
   );
 }
+
+const INTENT_LABELS: Record<string, string> = {
+  informational: "Informacional",
+  commercial: "Comercial",
+  transactional: "Transacional",
+  navigational: "Navegacional",
+};
 
 function SavedKeywordsTable({
   rows,
@@ -248,14 +265,14 @@ function SavedKeywordsTable({
       <table className="table table-zebra table-sm">
         <thead>
           <tr>
-            <th>Keyword</th>
+            <th>Palavra-chave</th>
             <th>Volume</th>
             <th>CPC</th>
-            <th>Competition</th>
-            <th>Difficulty</th>
-            <th>Intent</th>
-            <th>AI Cluster</th>
-            <th>Last Fetched</th>
+            <th>Concorrência</th>
+            <th>Dificuldade</th>
+            <th>Intenção</th>
+            <th>Grupo (IA)</th>
+            <th>Atualizado</th>
             <th></th>
           </tr>
         </thead>
@@ -273,7 +290,7 @@ function SavedKeywordsTable({
               </td>
               <td>
                 <span className="badge badge-sm badge-ghost">
-                  {kw.intent ?? "?"}
+                  {(kw.intent && INTENT_LABELS[kw.intent]) ?? kw.intent ?? "?"}
                 </span>
               </td>
               <td>
@@ -282,12 +299,12 @@ function SavedKeywordsTable({
                     {kw.aiCluster}
                   </span>
                 ) : (
-                  "-" 
+                  "-"
                 )}
               </td>
               <td className="text-xs text-base-content/50">
                 {kw.fetchedAt
-                  ? new Date(kw.fetchedAt).toLocaleDateString()
+                  ? new Date(kw.fetchedAt).toLocaleDateString("pt-BR")
                   : "-"}
               </td>
               <td>
@@ -295,7 +312,7 @@ function SavedKeywordsTable({
                   className="btn btn-ghost btn-xs text-error"
                   onClick={() => onRemoveKeyword(kw.id)}
                   disabled={removingId === kw.id}
-                  title="Remove"
+                  title="Remover"
                 >
                   {removingId === kw.id ? (
                     <Loader2 className="size-3 animate-spin" />

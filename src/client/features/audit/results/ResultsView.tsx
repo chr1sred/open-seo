@@ -128,18 +128,18 @@ function ResultsHeader({
             className={`tab ${activeTab === "pages" ? "tab-active" : ""}`}
             onClick={() => setSearchParams({ tab: "pages" })}
           >
-            Pages ({pageCount})
+            Páginas ({pageCount})
           </button>
           <button
             role="tab"
             className={`tab ${activeTab === "performance" ? "tab-active" : ""}`}
             onClick={() => setSearchParams({ tab: "performance" })}
           >
-            Performance ({psiCount})
+            Desempenho ({psiCount})
           </button>
         </div>
       ) : (
-        <h3 className="text-base font-medium">Pages ({pageCount})</h3>
+        <h3 className="text-base font-medium">Páginas ({pageCount})</h3>
       )}
 
       <ExportDropdown onExport={onExport} />
@@ -167,14 +167,14 @@ function StatsGrid({
 }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <StatCard label="Pages Crawled" value={String(pagesCrawled)} />
-      <StatCard label="Total URLs" value={String(totalPages)} />
-      <StatCard label="PSI Tests" value={String(totalPsi)} />
-      <StatCard label="Avg Response" value={`${averageResponseMs}ms`} />
+      <StatCard label="Páginas rastreadas" value={String(pagesCrawled)} />
+      <StatCard label="Total de URLs" value={String(totalPages)} />
+      <StatCard label="Testes PSI" value={String(totalPsi)} />
+      <StatCard label="Resposta média" value={`${averageResponseMs}ms`} />
       {totalPsi > 0 && (
         <>
           <StatCard
-            label="Avg PSI Perf"
+            label="Desempenho PSI médio"
             value={
               psiSummary.avgPerformance == null
                 ? "-"
@@ -183,12 +183,12 @@ function StatsGrid({
             className={scoreClass(psiSummary.avgPerformance)}
           />
           <StatCard
-            label="Avg PSI SEO"
+            label="SEO PSI médio"
             value={psiSummary.avgSeo == null ? "-" : String(psiSummary.avgSeo)}
             className={scoreClass(psiSummary.avgSeo)}
           />
           <StatCard
-            label="Avg PSI A11y"
+            label="Acessibilidade PSI média"
             value={
               psiSummary.avgAccessibility == null
                 ? "-"
@@ -197,7 +197,7 @@ function StatsGrid({
             className={scoreClass(psiSummary.avgAccessibility)}
           />
           <StatCard
-            label="PSI Failures"
+            label="Falhas PSI"
             value={String(psiSummary.failed)}
             className={psiSummary.failed > 0 ? "text-error" : "text-success"}
           />

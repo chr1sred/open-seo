@@ -33,16 +33,16 @@ function NoResultsState({ controller }: Props) {
         <Globe className="size-10 mx-auto text-base-content/40" />
         <div className="space-y-2">
           <p className="text-lg font-semibold text-base-content">
-            Not enough keyword data for this query yet
+            Ainda não há dados suficientes para esta pesquisa
           </p>
           <p className="text-sm text-base-content/70">
-            We could not find keyword opportunities for
+            Não encontramos oportunidades de palavras-chave para
             <span className="font-medium text-base-content">
               {` "${lastSearchKeyword}" `}
             </span>
-            in
+            em
             <span className="font-medium text-base-content">
-              {` ${LOCATIONS[lastSearchLocationCode] || "this location"}`}
+              {` ${LOCATIONS[lastSearchLocationCode] || "esta localização"}`}
             </span>
             .
           </p>
@@ -50,13 +50,19 @@ function NoResultsState({ controller }: Props) {
 
         <div className="rounded-xl bg-base-200/70 px-4 py-3 text-left text-sm text-base-content/70 space-y-1">
           <p>
-            Source checked:{" "}
+            Fonte consultada:{" "}
             <span className="font-medium">{lastResultSource}</span>
             {lastUsedFallback ? (
-              <span> (with fallback chain: related - suggestions - ideas)</span>
+              <span>
+                {" "}
+                (com alternativas: relacionadas - sugestões - ideias)
+              </span>
             ) : null}
           </p>
-          <p>Try a broader phrase, swap word order, or change location.</p>
+          <p>
+            Tente uma frase mais ampla, inverta a ordem das palavras ou mude a
+            localização.
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-2">
@@ -76,7 +82,7 @@ function NoResultsState({ controller }: Props) {
             }}
             disabled={lastSearchKeyword.trim().split(/\s+/).length < 2}
           >
-            Try reversed phrase
+            Inverter a frase
           </button>
           <button
             className="btn btn-sm btn-ghost"
@@ -92,7 +98,7 @@ function NoResultsState({ controller }: Props) {
               });
             }}
           >
-            Try broader seed
+            Usar termo mais amplo
           </button>
         </div>
       </div>
@@ -119,15 +125,15 @@ function SearchHistoryState({ controller }: Props) {
               <div className="flex items-center gap-2">
                 <History className="size-4 text-base-content/45" />
                 <span className="text-sm text-base-content/60">
-                  {history.length} recent search
-                  {history.length !== 1 ? "es" : ""}
+                  {history.length} pesquisa
+                  {history.length !== 1 ? "s recentes" : " recente"}
                 </span>
               </div>
               <button
                 className="btn btn-ghost btn-xs text-error"
                 onClick={clearHistory}
               >
-                Clear all
+                Limpar tudo
               </button>
             </div>
             <div className="grid gap-2">
@@ -160,7 +166,7 @@ function SearchHistoryState({ controller }: Props) {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-base-content/40">
-                      {new Date(item.timestamp).toLocaleDateString(undefined, {
+                      {new Date(item.timestamp).toLocaleDateString("pt-BR", {
                         month: "short",
                         day: "numeric",
                       })}
@@ -183,11 +189,11 @@ function SearchHistoryState({ controller }: Props) {
           <section className="rounded-2xl border border-dashed border-base-300 bg-base-100/70 p-6 text-center text-base-content/50 space-y-3">
             <Search className="size-10 mx-auto opacity-40" />
             <p className="text-lg font-medium text-base-content/80">
-              Enter a keyword to get started
+              Digite uma palavra-chave para começar
             </p>
             <p className="text-sm max-w-md mx-auto">
-              Search for any keyword to see volume, difficulty, CPC, and related
-              keyword ideas.
+              Pesquise qualquer palavra-chave para ver volume, dificuldade, CPC
+              e ideias relacionadas.
             </p>
           </section>
         )}

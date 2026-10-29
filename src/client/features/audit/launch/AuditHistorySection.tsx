@@ -18,7 +18,7 @@ export function AuditHistorySection({
       <div className="flex items-center justify-center py-16">
         <div className="text-center text-base-content/40 space-y-3">
           <ScanSearch className="size-12 mx-auto opacity-30" />
-          <p className="text-lg font-medium">No audits yet</p>
+          <p className="text-lg font-medium">Nenhuma auditoria ainda</p>
         </div>
       </div>
     );
@@ -29,15 +29,15 @@ export function AuditHistorySection({
   return (
     <div className="card bg-base-100 border border-base-300">
       <div className="card-body gap-3">
-        <h2 className="card-title text-base">Previous Audits</h2>
+        <h2 className="card-title text-base">Auditorias anteriores</h2>
         <div className="overflow-x-auto">
           <table className="table table-sm">
             <thead>
               <tr>
-                <th>Date</th>
+                <th>Data</th>
                 <th>URL</th>
                 <th>Status</th>
-                <th>Pages</th>
+                <th>Páginas</th>
                 <th>PSI</th>
                 <th></th>
               </tr>
@@ -55,7 +55,7 @@ export function AuditHistorySection({
                   <td>{audit.pagesTotal || audit.pagesCrawled}</td>
                   <td>
                     {audit.ranPsi ? (
-                      <span className="badge badge-ghost badge-xs">Yes</span>
+                      <span className="badge badge-ghost badge-xs">Sim</span>
                     ) : null}
                   </td>
                   <td>
@@ -90,14 +90,14 @@ function HistoryActions({
         className="btn btn-primary btn-xs"
         onClick={() => onView(auditId)}
       >
-        View
+        Ver
       </button>
       <div className="dropdown dropdown-end">
         <div
           tabIndex={0}
           role="button"
           className="btn btn-ghost btn-xs btn-square"
-          aria-label="Audit actions"
+          aria-label="Ações da auditoria"
         >
           <MoreHorizontal className="size-3.5" />
         </div>
@@ -114,7 +114,7 @@ function HistoryActions({
               }}
             >
               <Trash2 className="size-3.5" />
-              Delete audit
+              Excluir auditoria
             </button>
           </li>
         </ul>

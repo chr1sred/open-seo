@@ -61,7 +61,7 @@ export function BacklinksTrendChart({
             stroke="#14b8a6"
             strokeWidth={2}
             dot={false}
-            name="Referring domains"
+            name="Domínios de referência"
           />
         </LineChart>
       </ResponsiveContainer>
@@ -107,7 +107,7 @@ export function BacklinksNewLostChart({
             stroke="#16a34a"
             strokeWidth={2}
             dot={false}
-            name="New backlinks"
+            name="Novos backlinks"
           />
           <Line
             type="monotone"
@@ -115,7 +115,7 @@ export function BacklinksNewLostChart({
             stroke="#dc2626"
             strokeWidth={2}
             dot={false}
-            name="Lost backlinks"
+            name="Backlinks perdidos"
           />
         </LineChart>
       </ResponsiveContainer>
@@ -126,7 +126,7 @@ export function BacklinksNewLostChart({
 function EmptyChartState() {
   return (
     <div className="flex h-56 items-center justify-center rounded-xl border border-dashed border-base-300 text-sm text-base-content/55">
-      Not enough historical data yet.
+      Ainda não há histórico suficiente.
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function SortableHeader({ label, isActive, order, onClick }: Props) {
       type="button"
       className="inline-flex items-center gap-1 font-medium hover:text-base-content"
       onClick={onClick}
-      aria-label={`Sort by ${label}`}
+      aria-label={`Ordenar por ${label}`}
       aria-pressed={isActive}
     >
       <span>{label}</span>

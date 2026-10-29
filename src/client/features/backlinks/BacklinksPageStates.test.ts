@@ -12,8 +12,8 @@ describe("BacklinksErrorState", () => {
       }),
     );
 
-    expect(markup).toContain("Could not load backlinks");
+    expect(markup).toContain("Não foi possível carregar os backlinks");
     expect(markup).toContain("Could not load backlinks data.");
-    expect(markup).toContain("Retry");
+    expect(markup).toContain("Tentar novamente");
   });
 });

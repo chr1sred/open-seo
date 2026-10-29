@@ -93,7 +93,7 @@ export function DomainSearchCard({
                 if (!isTextField(field)) return null;
                 return (
                   <input
-                    placeholder="Enter a domain (e.g. coolify.io or example.com/blog)"
+                    placeholder="Digite um domínio (ex.: exemplo.com.br ou exemplo.com/blog)"
                     value={field.state.value}
                     onChange={(e) => {
                       field.handleChange(e.target.value);
@@ -122,9 +122,9 @@ export function DomainSearchCard({
                     onSortChange(next);
                   }}
                 >
-                  <option value="rank">By Rank</option>
-                  <option value="traffic">By Traffic</option>
-                  <option value="volume">By Volume</option>
+                  <option value="rank">Por posição</option>
+                  <option value="traffic">Por tráfego</option>
+                  <option value="volume">Por volume</option>
                 </select>
               );
             }}
@@ -135,7 +135,7 @@ export function DomainSearchCard({
             className="btn btn-primary lg:col-span-2"
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Search"}
+            {isLoading ? "Carregando..." : "Pesquisar"}
           </button>
         </form>
 
@@ -167,7 +167,7 @@ export function DomainSearchCard({
                 );
               }}
             </controlsForm.Field>
-            <span className="label-text">Include subdomains</span>
+            <span className="label-text">Incluir subdomínios</span>
           </label>
         </div>
       </div>

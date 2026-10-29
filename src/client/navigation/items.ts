@@ -11,19 +11,19 @@ import {
 export const projectNavItems = [
   {
     to: "/p/$projectId/keywords" as const,
-    label: "Keyword Research",
+    label: "Palavras-chave",
     icon: Search,
     matchSegment: "/keywords",
   },
   {
     to: "/p/$projectId/saved" as const,
-    label: "Saved Keywords",
+    label: "Palavras Salvas",
     icon: Bookmark,
     matchSegment: "/saved",
   },
   {
     to: "/p/$projectId/domain" as const,
-    label: "Domain Overview",
+    label: "Domínios",
     icon: Globe,
     matchSegment: "/domain",
   },
@@ -35,20 +35,20 @@ export const projectNavItems = [
   },
   {
     to: "/p/$projectId/rankings" as const,
-    label: "Rankings",
+    label: "Posições",
     icon: TrendingUp,
     matchSegment: "/rankings",
   },
   {
     to: "/p/$projectId/audit" as const,
 
-    label: "Site Audit",
+    label: "Auditoria",
     icon: ClipboardCheck,
     matchSegment: "/audit",
   },
   {
     to: "/p/$projectId/ai" as const,
-    label: "AI Visibility",
+    label: "Visibilidade em IA",
     icon: Bot,
     matchSegment: "/ai",
   },

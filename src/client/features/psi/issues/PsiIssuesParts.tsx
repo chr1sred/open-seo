@@ -32,35 +32,35 @@ export function PsiIssuesHeader({
     <>
       <div className="flex items-center justify-between gap-3">
         <button className="btn btn-ghost btn-sm px-2" onClick={onBack}>
-          &larr; Back to {backLabel}
+          &larr; Voltar para {backLabel}
         </button>
         <span className="text-xs text-base-content/60">
           {scannedAt
-            ? `Scanned ${new Date(scannedAt).toLocaleString()}`
-            : "Reading latest issues..."}
+            ? `Analisado em ${new Date(scannedAt).toLocaleString("pt-BR")}`
+            : "Carregando problemas..."}
         </span>
       </div>
 
       <div className="card bg-base-100 border border-base-300">
         <div className="card-body py-5 gap-4">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold">PSI Issues</h1>
+            <h1 className="text-2xl font-semibold">Problemas de PageSpeed</h1>
             <p className="text-sm text-base-content/70 break-all">
-              {finalUrl ?? "Loading URL..."}
+              {finalUrl ?? "Carregando URL..."}
             </p>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
             <span className="badge border border-error/30 bg-error/10 text-error/80 gap-1">
               <FileWarning className="size-3" />
-              Critical {severityCounts.critical}
+              Críticos {severityCounts.critical}
             </span>
             <span className="badge border border-warning/30 bg-warning/10 text-warning/80 gap-1">
               <TriangleAlert className="size-3" />
-              Warning {severityCounts.warning}
+              Alertas {severityCounts.warning}
             </span>
             <span className="badge border border-info/30 bg-info/10 text-info/80 gap-1">
               <Info className="size-3" />
-              Info {severityCounts.info}
+              Informativos {severityCounts.info}
             </span>
           </div>
         </div>
@@ -174,7 +174,7 @@ function ExportMenu({
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="btn btn-sm gap-1">
         <Download className="size-4" />
-        Export
+        Exportar
         <ChevronDown className="size-3 opacity-60" />
       </div>
       <ul
@@ -182,7 +182,7 @@ function ExportMenu({
         className="dropdown-content z-10 menu p-2 shadow-lg bg-base-100 border border-base-300 rounded-box w-72"
       >
         <li className="menu-title">
-          <span>Copy</span>
+          <span>Copiar</span>
         </li>
         <li>
           <button
@@ -190,43 +190,45 @@ function ExportMenu({
             onClick={() =>
               onCopy(
                 exportCurrentCategory,
-                `Copied ${categoryLabelLower} issues`,
+                `Problemas de ${categoryLabelLower} copiados`,
               )
             }
           >
             <Copy className="size-4" />
-            Copy {categoryLabelLower} issues
-          </button>
-        </li>
-        <li>
-          <button
-            disabled={isBusy}
-            onClick={() => onCopy({ mode: "issues" }, "Copied all issues")}
-          >
-            <Copy className="size-4" />
-            Copy all issues
+            Copiar problemas de {categoryLabelLower}
           </button>
         </li>
         <li>
           <button
             disabled={isBusy}
             onClick={() =>
-              onCopy({ mode: "full" }, "Copied full Lighthouse report")
+              onCopy({ mode: "issues" }, "Todos os problemas copiados")
             }
           >
             <Copy className="size-4" />
-            Copy full Lighthouse report
+            Copiar todos os problemas
+          </button>
+        </li>
+        <li>
+          <button
+            disabled={isBusy}
+            onClick={() =>
+              onCopy({ mode: "full" }, "Relatório Lighthouse completo copiado")
+            }
+          >
+            <Copy className="size-4" />
+            Copiar relatório Lighthouse completo
           </button>
         </li>
         <li className="menu-title">
-          <span>Download JSON</span>
+          <span>Baixar JSON</span>
         </li>
         <li>
           <button
             disabled={isBusy}
             onClick={() => onExport(exportCurrentCategory)}
           >
-            Download {categoryLabelLower} issues
+            Baixar problemas de {categoryLabelLower}
           </button>
         </li>
         <li>
@@ -234,23 +236,23 @@ function ExportMenu({
             disabled={isBusy}
             onClick={() => onExport({ mode: "issues" })}
           >
-            Download all issues
+            Baixar todos os problemas
           </button>
         </li>
         <li>
           <button disabled={isBusy} onClick={() => onExport({ mode: "full" })}>
-            Download full Lighthouse report
+            Baixar relatório Lighthouse completo
           </button>
         </li>
         <li className="menu-title">
-          <span>Download CSV</span>
+          <span>Baixar CSV</span>
         </li>
         <li>
           <button
             disabled={!visibleIssues.length}
             onClick={() => onExportCsv(visibleIssues, "current")}
           >
-            Download {categoryLabelLower} issues
+            Baixar problemas de {categoryLabelLower}
           </button>
         </li>
         <li>
@@ -258,7 +260,7 @@ function ExportMenu({
             disabled={!allIssues.length}
             onClick={() => onExportCsv(allIssues, "all")}
           >
-            Download all issues
+            Baixar todos os problemas
           </button>
         </li>
       </ul>
@@ -274,12 +276,14 @@ export function PsiIssueList({
   isLoading: boolean;
 }) {
   if (isLoading) {
-    return <p className="text-sm text-base-content/60">Loading issues...</p>;
+    return (
+      <p className="text-sm text-base-content/60">Carregando problemas...</p>
+    );
   }
   if (!issues.length) {
     return (
       <p className="text-sm text-base-content/60">
-        No unresolved issues for this category.
+        Nenhum problema pendente nesta categoria.
       </p>
     );
   }
@@ -295,26 +299,34 @@ export function PsiIssueList({
   );
 }
 
+const SEVERITY_LABELS: Record<PsiIssue["severity"], string> = {
+  critical: "crítico",
+  warning: "alerta",
+  info: "informativo",
+};
+
 function PsiIssueCard({ issue }: { issue: PsiIssue }) {
   return (
     <div className="card bg-base-200/30 border border-base-300">
       <div className="card-body p-5 gap-3">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="badge badge-outline">{issue.category}</span>
+            <span className="badge badge-outline">
+              {categoryLabel(issue.category)}
+            </span>
             <span
               className={`badge border ${severityBadgeClass(issue.severity)} gap-1`}
             >
               {severityIcon(issue.severity)}
-              {issue.severity}
+              {SEVERITY_LABELS[issue.severity]}
             </span>
             {issue.score != null ? (
               <div
                 className="tooltip tooltip-top"
-                data-tip="Lighthouse score from 0-100 for this audit. Lower means larger opportunity for improvement."
+                data-tip="Pontuação Lighthouse de 0 a 100 neste item. Quanto menor, maior a oportunidade de melhoria."
               >
                 <span className="badge badge-ghost cursor-help">
-                  Score {issue.score}
+                  Pontuação {issue.score}
                 </span>
               </div>
             ) : null}
@@ -322,7 +334,7 @@ function PsiIssueCard({ issue }: { issue: PsiIssue }) {
 
           {issue.impactMs != null || issue.impactBytes != null ? (
             <span className="text-xs text-base-content/60">
-              Impact {issue.impactMs ?? 0}ms / {issue.impactBytes ?? 0} bytes
+              Impacto {issue.impactMs ?? 0}ms / {issue.impactBytes ?? 0} bytes
             </span>
           ) : null}
         </div>
@@ -342,7 +354,7 @@ function PsiIssueCard({ issue }: { issue: PsiIssue }) {
         {issue.items.length > 0 ? (
           <details className="text-sm bg-base-100 rounded-box border border-base-300/80 px-3 py-2">
             <summary className="cursor-pointer font-medium text-base-content/75">
-              Affected items ({issue.items.length})
+              Itens afetados ({issue.items.length})
             </summary>
             <div className="mt-2 space-y-2">
               {issue.items.map((item) => (
