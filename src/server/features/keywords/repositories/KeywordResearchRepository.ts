@@ -136,20 +136,27 @@ async function saveKeywordsToProject(params: {
   locationCode: number;
   languageCode: string;
 }) {
-  if (params.keywords.length === 0) return;
-
-  await db
-    .insert(savedKeywords)
-    .values(
-      params.keywords.map((keyword) => ({
+  // One INSERT per keyword: a single multi-row INSERT exceeds D1's limit of
+  // 100 bound parameters per query (5 params per row -> max 20 rows).
+  const BATCH_SIZE = 100; // D1 max statements per batch() call
+  const statements = params.keywords.map((keyword) =>
+    db
+      .insert(savedKeywords)
+      .values({
         id: crypto.randomUUID(),
         projectId: params.projectId,
         keyword,
         locationCode: params.locationCode,
         languageCode: params.languageCode,
-      })),
-    )
-    .onConflictDoNothing();
+      })
+      .onConflictDoNothing(),
+  );
+
+  for (let i = 0; i < statements.length; i += BATCH_SIZE) {
+    const [first, ...rest] = statements.slice(i, i + BATCH_SIZE);
+    if (!first) continue;
+    await db.batch([first, ...rest]);
+  }
 }
 
 async function listSavedKeywordsByProject(projectId: string) {
